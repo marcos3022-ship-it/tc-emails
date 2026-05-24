@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>TC Email Generator Pro — Jenny F Mendoza Realty</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'IBM Plex Sans',Arial,sans-serif;background:#eef0f4;height:100vh;overflow:hidden;color:#1a202c}
+.app{display:flex;height:100vh}
+.sb{width:210px;background:#0d1e2e;flex-shrink:0;display:flex;flex-direction:column;overflow-y:auto}
+.sb-logo{padding:14px 12px 10px;border-bottom:1px solid rgba(255,255,255,.08)}
+.sb-logo-t{font-size:16px;font-weight:600;color:#fff}
+.sb-logo-s{font-size:9px;color:rgba(255,255,255,.3);text-transform:uppercase;letter-spacing:.1em;margin-top:2px}
+.sb-sec{font-size:9px;font-weight:700;color:rgba(255,255,255,.28);padding:10px 12px 3px;text-transform:uppercase;letter-spacing:.09em}
+.sb-lnk{display:flex;align-items:center;gap:7px;padding:7px 12px;cursor:pointer;font-size:12px;color:rgba(255,255,255,.5);border-left:2px solid transparent;transition:all .12s}
+.sb-lnk:hover{background:rgba(255,255,255,.05);color:rgba(255,255,255,.85)}
+.sb-lnk.on{background:rgba(255,255,255,.09);color:#fff;border-left-color:#c9a84c;font-weight:600}
+.sb-lnk i{font-size:14px;opacity:.7;flex-shrink:0}
+.sb-foot{margin-top:auto;padding:10px 12px;border-top:1px solid rgba(255,255,255,.07);font-size:10px;color:rgba(255,255,255,.25);line-height:1.6}
+.fc{width:340px;flex-shrink:0;background:#fff;border-right:1px solid #dde1e8;display:flex;flex-direction:column;overflow:hidden}
+.fc-hdr{padding:12px 14px 10px;border-bottom:1px solid #dde1e8;flex-shrink:0}
+.fc-title{font-size:15px;font-weight:600;color:#1f3b57}
+.fc-sub{font-size:11px;color:#8896aa;margin-top:2px}
+.fc-body{flex:1;overflow-y:auto;padding:10px 14px}
+.fsec{font-size:9px;font-weight:700;color:#1f3b57;text-transform:uppercase;letter-spacing:.07em;padding:8px 0 3px;border-bottom:1px solid #dde1e8;margin:4px 0 7px}
+.fg{margin-bottom:7px}
+.fg label{display:block;font-size:10px;font-weight:700;color:#4a5568;margin-bottom:2px;text-transform:uppercase;letter-spacing:.04em}
+.fg input,.fg select{width:100%;padding:6px 9px;border:1px solid #b0b8c8;border-radius:6px;background:#fff;color:#1a202c;font-family:inherit;font-size:12px;outline:none}
+.fg input:focus,.fg select:focus{border-color:#1f3b57}
+.rep-row{display:flex;gap:5px;margin-bottom:4px;align-items:center}
+.rep-row input{flex:1;padding:5px 8px;border:1px solid #b0b8c8;border-radius:6px;font-size:12px;font-family:inherit;outline:none}
+.add-r{width:100%;background:none;border:1px dashed #b0b8c8;color:#8a96a8;font-size:11px;padding:5px;border-radius:6px;cursor:pointer;font-family:inherit;margin-top:2px}
+.add-r:hover{border-color:#1f3b57;color:#1f3b57}
+.rm-r{background:none;border:none;cursor:pointer;color:#8a96a8;font-size:15px;padding:0 4px;line-height:1}
+.rm-r:hover{color:#c0392b}
+.fc-foot{padding:10px 14px;border-top:1px solid #dde1e8;flex-shrink:0;display:flex;gap:6px;flex-wrap:wrap}
+.btn{padding:7px 13px;border-radius:6px;border:none;cursor:pointer;font-family:inherit;font-size:12px;font-weight:600;display:inline-flex;align-items:center;gap:4px;transition:all .15s}
+.b-navy{background:#1f3b57;color:#fff}.b-navy:hover{background:#162c42}
+.b-gold{background:#c9a84c;color:#1a1a1a}.b-gold:hover{background:#a8882a;color:#fff}
+.b-green{background:#1a7a4a;color:#fff}.b-green:hover{background:#145e39}
+.b-out{background:transparent;border:1px solid #b0b8c8;color:#4a5568;font-size:11px;padding:5px 10px}
+.pc{flex:1;display:flex;flex-direction:column;overflow:hidden}
+.pbar{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:#fff;border-bottom:1px solid #dde1e8;flex-shrink:0}
+.pbar-t{font-size:13px;font-weight:600;color:#1f3b57;display:flex;align-items:center;gap:7px}
+.live{display:inline-flex;align-items:center;gap:4px;font-size:9px;font-weight:700;color:#1a7a4a;background:#e6f4ee;padding:2px 7px;border-radius:99px}
+.ldot{width:5px;height:5px;border-radius:50%;background:#1a7a4a;animation:blink 1.5s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+.pbody{flex:1;overflow-y:auto;padding:14px;background:#eef0f4}
+.pcard{background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,.07);border:1px solid #dde1e8}
+iframe{width:100%;border:none;display:block;min-height:600px}
+.tw{position:fixed;bottom:14px;right:14px;z-index:9999;display:flex;flex-direction:column;gap:5px}
+.tst{background:#1f3b57;color:#fff;padding:8px 12px;border-radius:6px;font-size:12px;display:flex;align-items:center;gap:6px;animation:tIn .15s ease;max-width:300px;box-shadow:0 3px 10px rgba(0,0,0,.2)}
+.tst.ok{background:#1a7a4a}.tst.gold{background:#c9a84c;color:#1a1a1a}
+@keyframes tIn{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
+</style>
+</head>
+<body>
+<div class="app">
+
+<div class="sb">
+  <div class="sb-logo"><div class="sb-logo-t">TC Emails Pro</div><div class="sb-logo-s">Jenny F Mendoza Realty</div></div>
+  <div class="sb-sec">Templates</div>
+  <div class="sb-lnk on" onclick="go('uc',this)"><i class="ti ti-file-check"></i>Under Contract</div>
+  <div class="sb-lnk" onclick="go('co',this)"><i class="ti ti-currency-dollar"></i>Cash Offer</div>
+  <div class="sb-lnk" onclick="go('of',this)"><i class="ti ti-file-plus"></i>Offer Submitted</div>
+  <div class="sb-lnk" onclick="go('ins',this)"><i class="ti ti-tool"></i>Inspection Notice</div>
+  <div class="sb-lnk" onclick="go('am',this)"><i class="ti ti-edit"></i>Amendment – Repairs</div>
+  <div class="sb-lnk" onclick="go('ap',this)"><i class="ti ti-chart-bar"></i>Appraisal Notice</div>
+  <div class="sb-lnk" onclick="go('ctc',this)"><i class="ti ti-circle-check"></i>Clear to Close</div>
+  <div class="sb-lnk" onclick="go('fw',this)"><i class="ti ti-walk"></i>Final Walkthrough</div>
+  <div class="sb-lnk" onclick="go('cl',this)"><i class="ti ti-home-check"></i>Closing Confirmed</div>
+  <div class="sb-lnk" onclick="go('ut',this)"><i class="ti ti-bolt"></i>Utility Services</div>
+  <div class="sb-lnk" onclick="go('ca',this)"><i class="ti ti-writing"></i>Commission Agreement</div>
+  <div class="sb-sec">Recent</div>
+  <div id="hist"></div>
+  <div class="sb-foot">Marcos A. Pe&#241;a &middot; TC<br/>Jenny F Mendoza Realty Group<br/>(404) 458-1064</div>
+</div>
+
+<div class="fc">
+  <div class="fc-hdr"><div class="fc-title" id="ft">Under Contract</div><div class="fc-sub" id="fs">Fill fields — preview updates live</div></div>
+  <div class="fc-body" id="fb"></div>
+  <div class="fc-foot">
+    <button class="btn b-navy" onclick="doDL()">&#11015; Download Email</button>
+    <button class="btn b-gold" onclick="doPreviewWin()">&#128065; Open for Outlook</button>
+  </div>
+</div>
+
+<div class="pc">
+  <div class="pbar">
+    <span class="pbar-t">Preview <span class="live"><span class="ldot"></span>Live</span></span>
+    <div style="display:flex;gap:6px">
+      <button class="btn b-out" onclick="doDL()">&#11015; Download</button>
+      <button class="btn b-navy" style="font-size:11px;padding:5px 10px" onclick="doPreviewWin()">&#128065; Open</button>
+    </div>
+  </div>
+  <div class="pbody"><div class="pcard"><iframe id="frm" style="width:100%;border:none;display:block;min-height:600px;"></iframe></div></div>
+</div>
+</div>
+<div class="tw" id="tw"></div>
+
+<script>
+const LOGO='https://lh3.googleusercontent.com/pw/AP1GczNsAfN2KZDltdOuTVp3cBvGnq92-4OD0craTxuSLZTLuqvWoc3LUqjmYMDJeoDCtyarei0HdKVpAWKvOgKmFKu4-r7EXKs-CqzD23xcaBBmlsq7pyF-adxykTCYNflVKZegSOMo4Y4BkfkhjRceQ8941A=w869-h869-s-no-gm?authuser=0';
+const JENNY='https://www.dropbox.com/scl/fi/9j87zvvjr53h4g8rzd5kb/bae74f4e-b6d4-4fb5-8a0d-f8c897344906.jpg?rlkey=73v4hushk450pk4jxlpraxx2j&raw=1';
+
+function fd(v){if(!v)return'';try{return new Date(v+'T12:00:00').toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'});}catch(e){return v;}}
+function fdt(v){if(!v)return'';try{return new Date(v).toLocaleString('en-US',{month:'long',day:'numeric',year:'numeric',hour:'numeric',minute:'2-digit'});}catch(e){return v;}}
+function fshort(v){if(!v)return'';try{return new Date(v+'T12:00:00').toLocaleDateString('en-US',{month:'2-digit',day:'2-digit',year:'2-digit'});}catch(e){return v;}}
+
+// ═══════════════════════════════════════════
+// OUTLOOK-SAFE EMAIL BUILDER
+// Pure table layout with inline styles — same structure as commission_agreement_tc_positive.html
+// ═══════════════════════════════════════════
+function buildEmail(color, emoji, title, addr, bodyHTML, datesObj){
+
+// Horizontal dates table (My Realty Mate style)
+function datesTableHoriz(d){
+  const cols=[];
+  if(d.binding||d.bd) cols.push({l:'Binding<br/>Agreement',v:fshort(d.binding||d.bd)});
+  if(d.em&&d.ed)      cols.push({l:'Earnest<br/>Money',v:fshort(d.ed)});
+  if(d.dd)            cols.push({l:'Due<br/>Diligence',v:fshort(d.dd)});
+  if(d.fd2)           cols.push({l:'Financing<br/>Contingency',v:fshort(d.fd2)});
+  if(d.ad)            cols.push({l:'Appraisal<br/>Contingency',v:fshort(d.ad)});
+  if(d.cd)            cols.push({l:'Closing<br/>Date',v:fshort(d.cd)});
+  if(!cols.length) return '';
+  const w=Math.floor(100/cols.length);
+  let hdr='', vals='';
+  cols.forEach(c=>{
+    hdr+=`<td width="${w}%" align="center" style="padding:8px 4px;font-size:12px;font-weight:bold;color:#1f3b57;font-family:Arial,sans-serif;border-bottom:2px solid #1f3b57;">${c.l}</td>`;
+    vals+=`<td width="${w}%" align="center" style="padding:10px 4px;font-size:14px;font-weight:bold;color:#333333;font-family:Arial,sans-serif;">${c.v||'—'}</td>`;
+  });
+  return `
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin:16px 0 8px;">
+    <tr><td colspan="2" style="padding-bottom:6px;">
+      <p style="margin:0;font-size:11px;font-weight:600;color:#888888;font-family:Arial,sans-serif;text-transform:uppercase;letter-spacing:1px;">&#8213;&#8213; Reminder of Important Dates &#8213;&#8213;</p>
+    </td></tr>
+  </table>
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color:#f7f9fb;border:1px solid #e0e4ea;border-radius:8px;margin-bottom:16px;">
+    <tr>${hdr}</tr>
+    <tr>${vals}</tr>
+  </table>
+  <p style="margin:0 0 16px;font-size:11px;color:#888888;font-family:Arial,sans-serif;text-align:center;font-style:italic;">The dates above work as a reference. Please confirm them on the attached contract.</p>`;
+}
+
+const datesSection = datesObj ? datesTableHoriz(datesObj) : '';
+
+return `<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>${title}</title>
+</head>
+<body style="margin:0;padding:0;background-color:#f0f2f5;font-family:'Segoe UI',Arial,sans-serif;">
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color:#f0f2f5;">
+<tr><td align="center" style="padding:24px 10px;">
+
+<table role="presentation" width="600" cellpadding="0" cellspacing="0" border="0" style="width:600px;background-color:#ffffff;border-radius:10px;overflow:hidden;border:1px solid #dddddd;">
+
+<!-- HEADER -->
+<tr>
+  <td align="center" bgcolor="${color}" style="background-color:${color};padding:24px 20px 20px;">
+    <img src="${LOGO}" alt="Jenny F Mendoza Realty Group" width="260" style="display:block;border:0;margin:0 auto 16px;"/>
+    <p style="margin:0;font-size:24px;font-weight:bold;color:#ffffff;font-family:Arial,sans-serif;line-height:1.3;">${emoji} ${title}</p>
+    <p style="margin:8px 0 0;font-size:15px;font-weight:normal;color:rgba(255,255,255,0.88);font-family:Arial,sans-serif;">${addr||'[Property Address]'}</p>
+  </td>
+</tr>
+
+<!-- GREEN ACCENT BAR -->
+<tr><td height="4" bgcolor="#00a651" style="background-color:#00a651;font-size:0;line-height:0;">&nbsp;</td></tr>
+
+<!-- BODY -->
+<tr>
+  <td style="padding:26px 28px 6px;color:#333333;font-size:15px;line-height:1.65;font-family:Arial,sans-serif;">
+    ${bodyHTML}
+    ${datesSection}
+    <p style="margin:16px 0 0;font-size:14px;font-family:Arial,sans-serif;">Thank you for your cooperation and prompt attention to these matters. Please don't hesitate to contact me or the agent, Jenny Mendoza, with any questions.</p>
+  </td>
+</tr>
+
+<!-- AGENT SECTION -->
+<tr>
+  <td style="padding:20px 28px;">
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color:#f5f7fa;border-radius:8px;">
+      <tr><td align="center" style="padding:20px 16px;">
+        <p style="margin:0 0 12px;font-size:13px;font-weight:bold;color:#888888;font-family:Arial,sans-serif;text-transform:uppercase;letter-spacing:1px;">MEET YOUR AGENT</p>
+        <img src="${JENNY}" alt="Jenny Mendoza" width="150" height="150" style="display:block;border-radius:75px;border:3px solid #1f3b57;margin:0 auto 12px;"/>
+        <p style="margin:0;font-size:15px;font-weight:bold;color:#1f3b57;font-family:Arial,sans-serif;">Jenny Mendoza</p>
+        <p style="margin:3px 0 0;font-size:13px;color:#666666;font-family:Arial,sans-serif;">Jenny F Mendoza Realty Group &amp; Associates</p>
+      </td></tr>
+    </table>
+  </td>
+</tr>
+
+<!-- BUTTONS -->
+<tr>
+  <td align="center" style="padding:0 28px 16px;">
+    <table role="presentation" cellpadding="0" cellspacing="0" border="0">
+      <tr>
+        <td style="padding:0 6px;">
+          <a href="mailto:marcos@jennyfmendozarealtyg.com" style="display:inline-block;background-color:${color};color:#ffffff;text-decoration:none;padding:12px 22px;border-radius:5px;font-size:14px;font-weight:bold;font-family:Arial,sans-serif;">Contact Marcos</a>
+        </td>
+        <td style="padding:0 6px;">
+          <a href="mailto:jennyfmendozarealtor@outlook.com" style="display:inline-block;background-color:#3b6ea5;color:#ffffff;text-decoration:none;padding:12px 22px;border-radius:5px;font-size:14px;font-weight:bold;font-family:Arial,sans-serif;">Contact Jenny</a>
+        </td>
+      </tr>
+    </table>
+  </td>
+</tr>
+
+<!-- SIGNATURE -->
+<tr>
+  <td align="center" style="padding:0 28px 22px;">
+    <p style="margin:0;font-size:13px;color:#555555;font-family:Arial,sans-serif;line-height:1.9;text-align:center;">
+      &#128222; Transaction Coordinator: Marcos A. Pe&#241;a<br/>
+      &#127968; Jenny F Mendoza Realty Group<br/>
+      &#9742;&#65039; Office: (404) 458-1064 &nbsp;|&nbsp; &#128241; Mobile: (678) 701-7101<br/>
+      &#9993;&#65039; marcos@jennyfmendozarealtyg.com
+    </p>
+  </td>
+</tr>
+
+<!-- GREEN BAR -->
+<tr><td height="4" bgcolor="#00a651" style="background-color:#00a651;font-size:0;line-height:0;">&nbsp;</td></tr>
+
+<!-- FOOTER -->
+<tr>
+  <td align="center" bgcolor="#f0f2f5" style="background-color:#f0f2f5;padding:14px 10px;font-size:11px;color:#888888;font-family:Arial,sans-serif;">
+    Jenny F Mendoza Realty Group | All rights reserved.<br/>${addr||'[Property Address]'}
+  </td>
+</tr>
+
+</table>
+</td></tr></table>
+</body></html>`;
+}
+
+// ── SHARED BUILDERS ──
+function secH(color,text){
+  return `<p style="margin:18px 0 0;font-size:11px;font-weight:600;color:#888888;font-family:Arial,sans-serif;text-transform:uppercase;letter-spacing:1px;">&#8213;&#8213; ${text}</p>
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin:4px 0 8px;"><tr><td height="3" bgcolor="${color}" style="background-color:${color};font-size:0;line-height:0;">&nbsp;</td></tr></table>`;
+}
+
+function partyBox(color, partyLabel, name, items){
+  let itemsHtml = items.map(i=>`<li style="margin-bottom:5px;font-size:14px;font-family:Arial,sans-serif;">${i}</li>`).join('');
+  return `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-bottom:12px;">
+    <tr>
+      <td style="border-left:4px solid ${color};padding:12px 16px;background-color:#f7f9fb;border-radius:0 6px 6px 0;">
+        <p style="margin:0 0 6px;font-size:15px;font-weight:bold;color:#1f3b57;font-family:Arial,sans-serif;">${partyLabel}: <span style="color:${color};">${name}</span></p>
+        <p style="margin:0 0 4px;font-size:13px;font-weight:600;color:#555555;font-family:Arial,sans-serif;">Is it possible for you to provide the following:</p>
+        <ul style="margin:4px 0 0;padding-left:20px;">${itemsHtml}</ul>
+      </td>
+    </tr>
+  </table>`;
+}
+
+function infoBox(color,html){
+  return `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color:#f7f9fb;border-left:4px solid ${color};border-radius:0 6px 6px 0;margin-bottom:12px;">
+    <tr><td style="padding:13px 16px;font-size:14px;font-family:Arial,sans-serif;color:#333333;line-height:1.7;">${html}</td></tr>
+  </table>`;
+}
+
+function alertBox(bg,border,html){
+  return `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-bottom:12px;">
+    <tr><td style="background-color:${bg};border:1px solid ${border};border-radius:6px;padding:12px 14px;font-size:14px;font-family:Arial,sans-serif;color:#333333;line-height:1.65;">${html}</td></tr>
+  </table>`;
+}
+
+// ═══════════════════════════════════════════
+// TEMPLATES
+// ═══════════════════════════════════════════
+const T={
+  uc:{lbl:'&#9989; Under Contract',sub:'Notify all parties the property is under contract',c:'#1f3b57',
+    flds:[
+      {s:'Transaction Parties',f:[
+        {id:'pa',l:'Property Address',ph:'123 Main St, Atlanta, GA 30301'},
+        {id:'la',l:'Listing Agent Name',ph:'John Smith'},
+        {id:'la_email',l:'Listing Agent Email',ph:'agent@email.com'},
+        {id:'la_phone',l:'Listing Agent Phone',ph:'(404) 555-0100'},
+        {id:'la_broker',l:'Listing Agent Broker',ph:'Virtual Properties Realty'},
+        {id:'at',l:'Attorney / Firm',ph:'ABC Law Firm'},
+        {id:'lo',l:'Loan Officer',ph:'Jane Doe'},
+      ]},
+      {s:'Key Dates',f:[
+        {id:'pp',l:'Purchase Price',ph:'$350,000'},
+        {id:'em',l:'Earnest Money',ph:'$5,000'},
+        {id:'bd',l:'Binding Agreement Date',tp:'date'},
+        {id:'ed',l:'Earnest Money Due Date',tp:'date'},
+        {id:'dd',l:'Due Diligence Date',tp:'date'},
+        {id:'fd2',l:'Financing Contingency Date',tp:'date'},
+        {id:'ad',l:'Appraisal Contingency Date',tp:'date'},
+        {id:'cd',l:'Closing Date',tp:'date'},
+      ]},
+    ],
+    gen(d){return buildEmail(this.c,'&#9989;','Property Under Contract',d.pa,
+      `<p style="margin:0 0 6px;font-size:15px;font-weight:bold;font-family:Arial,sans-serif;">Hello Everyone...</p>
+       <p style="margin:0 0 16px;font-size:15px;font-family:Arial,sans-serif;">It is a pleasure to notify that we are <strong>UNDER CONTRACT</strong> in the property <strong>${d.pa||'[Property Address]'}</strong></p>
+       <p style="margin:0 0 16px;font-size:15px;font-family:Arial,sans-serif;">My name is <strong>Marcos A. Pe&#241;a</strong>, and I will be the <strong>Transaction Coordinator</strong> for the buyer in this transaction. To ensure efficient communication, please <strong>CC me on all email correspondence</strong> related to this property.</p>
+       <p style="margin:0 0 16px;font-size:14px;font-style:italic;font-family:Arial,sans-serif;">Please read carefully the following:</p>
+       ${secH(this.c,'Parties Involved')}
+       ${d.la?partyBox(this.c,'Listing Agent',d.la+(d.la_broker?'<br/><span style="font-size:12px;color:#888;font-weight:normal;">Broker: '+d.la_broker+'</span>':'')+(d.la_email?'<br/><span style="font-size:12px;color:#888;font-weight:normal;">'+d.la_email+'</span>':'')+(d.la_phone?'<br/><span style="font-size:12px;color:#888;font-weight:normal;">'+d.la_phone+'</span>':''),[
+         'Provide the <strong>CBS code</strong> and/or detailed access instructions for the property.',
+         'Provide the <strong>Instructions to Closing Attorney (ITCA)</strong>.',
+       ]):''}
+       ${d.at?partyBox(this.c,'Attorney',d.at,[
+         'Sign and return the attached <strong>F511 form</strong> at your earliest convenience.',
+         'Provide the buyer with the <strong>wiring instructions</strong> for the earnest money deposit.',
+       ]):''}
+       ${d.lo?partyBox(this.c,'Loan Officer',d.lo,[
+         'Confirm receipt of the <strong>appraisal order</strong>.',
+         'Forward the <strong>Homeowners Insurance (HOI) application</strong> to the insurance agent once accepted.',
+       ]):''}`,
+    d);}
+  },
+  co:{lbl:'&#10024; Cash Offer',sub:'Priority cash offer — no financing contingency',c:'#1f5c8a',
+    flds:[
+      {s:'Property & Offer',f:[
+        {id:'pa',l:'Property Address',ph:'123 Main St, Atlanta, GA'},
+        {id:'op',l:'Offer Price',ph:'$300,000'},
+        {id:'od',l:'Offer Date',tp:'date'},
+        {id:'oe',l:'Offer Expiration',tp:'datetime-local'},
+        {id:'days',l:'Closing in (days)',ph:'30'},
+      ]},
+      {s:'Parties',f:[
+        {id:'la',l:'Listing Agent',ph:'John Smith'},
+        {id:'at',l:'Attorney / Firm',ph:'ABC Law Firm'},
+      ]},
+      {s:'Key Dates',f:[
+        {id:'em',l:'Earnest Money',ph:'$5,000'},
+        {id:'ed',l:'Earnest Money Due Date',tp:'date'},
+        {id:'cd',l:'Closing Date',tp:'date'},
+        {id:'dd',l:'Due Diligence',tp:'date'},
+      ]},
+    ],
+    gen(d){return buildEmail(this.c,'&#10024;','Cash Offer Submitted',d.pa,
+      `<p style="margin:0 0 16px;font-size:15px;font-family:Arial,sans-serif;">We are pleased to submit a formal <strong>cash offer</strong> for the property at <strong>${d.pa||'[Property Address]'}</strong>${d.od?' on <strong>'+fd(d.od)+'</strong>':''}. This offer ensures a fast and efficient transaction with <strong>full cash payment — no financing contingency</strong>.</p>
+       ${d.oe?alertBox('#fff3e0','#ffcc80','&#9888;&#65039; <strong>Offer expires: '+fdt(d.oe)+'</strong> — Please respond before this deadline.'):''}
+       ${secH(this.c,'Offer Details')}
+       <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="border-left:4px solid ${this.c};margin-bottom:12px;">
+         ${d.op?`<tr><td style="padding:8px 16px;font-size:14px;font-family:Arial,sans-serif;background-color:#f7f9fb;border-bottom:1px solid #e0e4ea;"><strong>&#128176; Offer Price:</strong> ${d.op}</td></tr>`:''}
+         ${d.days?`<tr><td style="padding:8px 16px;font-size:14px;font-family:Arial,sans-serif;background-color:#edf1f6;border-bottom:1px solid #e0e4ea;"><strong>&#128197; Closing Timeline:</strong> ${d.days} days</td></tr>`:''}
+         ${d.oe?`<tr><td style="padding:8px 16px;font-size:14px;font-family:Arial,sans-serif;background-color:#ffeaea;border-bottom:1px solid #e0e4ea;"><strong>&#9888;&#65039; Offer Expires:</strong> <strong style="color:#c0392b;">${fdt(d.oe)}</strong></td></tr>`:''}
+       </table>
+       ${d.la?partyBox(this.c,'Listing Agent',d.la,[
+         'Review the attached cash offer document.',
+         'Respond by <strong>'+(d.oe?fdt(d.oe):'[Expiration Date]')+'</strong> to accept, reject, or counter.',
+         'Please confirm receipt of this offer.',
+       ]):''}
+       ${d.at?partyBox(this.c,'Attorney',d.at,[
+         'Please prepare to open escrow upon acceptance.',
+         'Confirm availability for the proposed closing date.',
+       ]):''}
+       ${alertBox('#fff8e1','#ffd54f','&#11088; <strong>Priority Cash Buyer</strong> — This offer comes from a qualified cash buyer ready to close quickly with no financing contingency. We appreciate your prompt response.')}`,
+    d);}
+  },
+  of:{lbl:'&#128232; Offer Submitted',sub:'Standard financed offer notification',c:'#2d6a9f',
+    flds:[
+      {s:'Property & Offer',f:[
+        {id:'pa',l:'Property Address',ph:'123 Main St, Atlanta, GA'},
+        {id:'op',l:'Offer Price',ph:'$340,000'},
+        {id:'ft2',l:'Financing Type',ph:'Conventional / FHA / VA'},
+        {id:'oe',l:'Offer Expiration',tp:'datetime-local'},
+      ]},
+      {s:'Parties',f:[
+        {id:'la',l:'Listing Agent',ph:'John Smith'},
+        {id:'at',l:'Attorney / Firm',ph:'ABC Law Firm'},
+        {id:'lo',l:'Loan Officer',ph:'Jane Doe'},
+      ]},
+      {s:'Key Dates',f:[
+        {id:'em',l:'Earnest Money',ph:'$5,000'},
+        {id:'ed',l:'Earnest Money Due Date',tp:'date'},
+        {id:'cd',l:'Closing Date',tp:'date'},
+        {id:'dd',l:'Due Diligence',tp:'date'},
+        {id:'fd2',l:'Financing Contingency',tp:'date'},
+      ]},
+    ],
+    gen(d){return buildEmail(this.c,'&#128232;','Offer Submitted',d.pa,
+      `<p style="margin:0 0 16px;font-size:15px;font-family:Arial,sans-serif;">A <strong>${d.ft2||'financed'} offer</strong> has been submitted for the property at <strong>${d.pa||'[Property Address]'}</strong>${d.op?' at <strong>'+d.op+'</strong>':''}. Please review and respond at your earliest convenience.</p>
+       ${d.oe?alertBox('#fff3e0','#ffcc80','&#9200; <strong>Offer expires: '+fdt(d.oe)+'</strong> — Please respond before this deadline.'):''}
+       ${d.la?partyBox(this.c,'Listing Agent',d.la,[
+         'Acknowledge receipt of the offer.',
+         'Advise on the seller\'s response timeline.',
+         'Respond before offer expiration.',
+       ]):''}
+       ${d.at?partyBox(this.c,'Attorney',d.at,['Prepare to open escrow upon acceptance.']):''}
+       ${d.lo?partyBox(this.c,'Loan Officer',d.lo,[
+         'Confirm pre-approval letter is current and ready.',
+         'Prepare to order appraisal upon acceptance.',
+       ]):''}`,
+    d);}
+  },
+  ins:{lbl:'&#128269; Inspection Notice',sub:'Schedule and confirm home inspection',c:'#2e6b45',
+    flds:[
+      {s:'Property',f:[
+        {id:'pa',l:'Property Address',ph:'123 Main St, Atlanta, GA'},
+        {id:'la',l:'Listing Agent',ph:'John Smith'},
+      ]},
+      {s:'Inspection Details',f:[
+        {id:'idt',l:'Inspection Date & Time',tp:'datetime-local'},
+        {id:'insp',l:'Inspector / Company',ph:'ABC Inspections LLC'},
+        {id:'iph',l:'Inspector Phone',ph:'(404) 555-0100'},
+        {id:'wdo',l:'WDO/Termite?',tp:'select',opts:['Yes — same day','Yes — separate date','No']},
+        {id:'idl',l:'Inspection Contingency Deadline',tp:'date'},
+      ]},
+      {s:'Key Dates',f:[{id:'cd',l:'Closing Date',tp:'date'}]},
+    ],
+    gen(d){return buildEmail(this.c,'&#128269;','Home Inspection Notice',d.pa,
+      `<p style="margin:0 0 16px;font-size:15px;font-family:Arial,sans-serif;">The <strong>home inspection</strong> for the property at <strong>${d.pa||'[Property Address]'}</strong> has been scheduled. Please ensure property access is available at the date and time below.</p>
+       ${secH(this.c,'Inspection Details')}
+       <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="border-left:4px solid ${this.c};margin-bottom:12px;">
+         ${d.idt?`<tr><td style="padding:8px 16px;font-size:14px;font-family:Arial,sans-serif;background-color:#f7f9fb;border-bottom:1px solid #e0e4ea;"><strong>&#128197; Date &amp; Time:</strong> <strong>${fdt(d.idt)}</strong></td></tr>`:''}
+         ${d.insp?`<tr><td style="padding:8px 16px;font-size:14px;font-family:Arial,sans-serif;background-color:#edf1f6;border-bottom:1px solid #e0e4ea;"><strong>&#128119; Inspector:</strong> ${d.insp}</td></tr>`:''}
+         ${d.iph?`<tr><td style="padding:8px 16px;font-size:14px;font-family:Arial,sans-serif;background-color:#f7f9fb;border-bottom:1px solid #e0e4ea;"><strong>&#128222; Phone:</strong> ${d.iph}</td></tr>`:''}
+         ${d.wdo?`<tr><td style="padding:8px 16px;font-size:14px;font-family:Arial,sans-serif;background-color:#edf1f6;border-bottom:1px solid #e0e4ea;"><strong>&#129714; WDO/Termite:</strong> ${d.wdo}</td></tr>`:''}
+         ${d.idl?`<tr><td style="padding:8px 16px;font-size:14px;font-family:Arial,sans-serif;background-color:#fff3e0;border-bottom:1px solid #e0e4ea;"><strong>&#9200; Contingency Deadline:</strong> <strong style="color:#c0392b;">${fd(d.idl)}</strong></td></tr>`:''}
+         ${d.cd?`<tr><td style="padding:8px 16px;font-size:14px;font-family:Arial,sans-serif;background-color:#f7f9fb;"><strong>&#127968; Closing Date:</strong> ${fd(d.cd)}</td></tr>`:''}
+       </table>
+       ${d.la?partyBox(this.c,'Listing Agent',d.la,[
+         'Ensure property access on the scheduled date and time.',
+         'Provide updated CBS code / lockbox access.',
+         'Please note: buyer\'s inspector will need approximately 3 hours.',
+       ]):''}`,
+    null);}
+  },
+  am:{lbl:'&#128295; Amendment – Repairs',sub:"Seller agrees to buyer's repair requests",c:'#7b3f00',
+    flds:[
+      {s:'Property & Recipient',f:[
+        {id:'pa',l:'Property Address',ph:'123 Main St, Atlanta, GA'},
+        {id:'rec',l:'Recipient',ph:'All / John Smith'},
+        {id:'la',l:'Listing Agent',ph:'John Smith'},
+        {id:'at',l:'Attorney / Firm',ph:'ABC Law Firm'},
+      ]},
+      {s:'Repair Items',f:[{id:'_r',tp:'repairs'}]},
+      {s:'Key Dates',f:[
+        {id:'rdl',l:'Repair Completion Deadline',tp:'date'},
+        {id:'cd',l:'Closing Date',tp:'date'},
+      ]},
+    ],
+    gen(d){
+      const reps=(d._repairs||[]).filter(r=>r.trim());
+      if(!reps.length)reps.push('[Repair Item 1]','[Repair Item 2]');
+      return buildEmail(this.c,'&#128295;','Amendment – Seller Agrees to Repairs',d.pa,
+        `<p style="margin:0 0 6px;font-size:15px;font-weight:bold;font-family:Arial,sans-serif;">Dear ${d.rec||'All'},</p>
+         <p style="margin:0 0 16px;font-size:15px;font-family:Arial,sans-serif;">The <strong>seller has reviewed the inspection report</strong> and is willing to complete the following repairs requested in the previously submitted amendment:</p>
+         ${infoBox(this.c,'<ul style="margin:0;padding-left:20px;line-height:1.9;">'+reps.map(r=>'<li style="margin-bottom:5px;font-size:14px;font-family:Arial,sans-serif;">&#128296; '+r+'</li>').join('')+'</ul>')}
+         <p style="margin:0 0 16px;font-size:14px;font-family:Arial,sans-serif;">Licensed professionals will be scheduled to complete these items <strong>no later than ${d.rdl?fd(d.rdl):'7 days prior to closing'}</strong>. Please acknowledge receipt of this amendment so we may update all parties and move forward.</p>
+         ${d.la?partyBox(this.c,'Listing Agent',d.la,[
+           'Confirm all repair contractors are scheduled.',
+           'Provide receipts and documentation upon completion.',
+           'Ensure all repairs are done before the final walkthrough.',
+         ]):''}
+         ${d.at?partyBox(this.c,'Attorney',d.at,[
+           'Update the file with this signed amendment.',
+           'Note the repair completion deadline.',
+         ]):''}
+         ${(d.rdl||d.cd)?`${secH(this.c,'Key Dates')}
+         <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="border-left:4px solid ${this.c};margin-bottom:12px;">
+           ${d.rdl?`<tr><td style="padding:8px 16px;font-size:14px;font-family:Arial,sans-serif;background-color:#fff3e0;border-bottom:1px solid #e0e4ea;"><strong>&#128296; Repair Deadline:</strong> <strong style="color:#c0392b;">${fd(d.rdl)}</strong></td></tr>`:''}
+           ${d.cd?`<tr><td style="padding:8px 16px;font-size:14px;font-family:Arial,sans-serif;background-color:#f7f9fb;"><strong>&#127968; Closing Date:</strong> ${fd(d.cd)}</td></tr>`:''}
+         </table>`:''}`,
+      null);}
+  },
+  ap:{lbl:'&#128202; Appraisal Notice',sub:'Appraisal ordered — notify all parties',c:'#5b3ea6',
+    flds:[
+      {s:'Property',f:[
+        {id:'pa',l:'Property Address',ph:'123 Main St, Atlanta, GA'},
+        {id:'la',l:'Listing Agent',ph:'John Smith'},
+        {id:'lo',l:'Loan Officer',ph:'Jane Doe'},
+        {id:'at',l:'Attorney / Firm',ph:'ABC Law Firm'},
+      ]},
+      {s:'Appraisal Details',f:[
+        {id:'amc',l:'Appraiser / AMC Name',ph:'XYZ Appraisal Management'},
+        {id:'asd',l:'Appraisal Scheduled Date',tp:'date'},
+        {id:'ad',l:'Appraisal Contingency Deadline',tp:'date'},
+      ]},
+      {s:'Key Dates',f:[
+        {id:'pp',l:'Purchase Price',ph:'$350,000'},
+        {id:'cd',l:'Closing Date',tp:'date'},
+      ]},
+    ],
+    gen(d){return buildEmail(this.c,'&#128202;','Appraisal Notice',d.pa,
+      `<p style="margin:0 0 16px;font-size:15px;font-family:Arial,sans-serif;">Please be advised that the <strong>appraisal</strong> for the property at <strong>${d.pa||'[Property Address]'}</strong> has been ordered. Cooperation from all parties is appreciated to ensure timely completion.</p>
+       ${secH(this.c,'Appraisal Details')}
+       <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="border-left:4px solid ${this.c};margin-bottom:12px;">
+         ${d.amc?`<tr><td style="padding:8px 16px;font-size:14px;font-family:Arial,sans-serif;background-color:#f7f9fb;border-bottom:1px solid #e0e4ea;"><strong>&#127962;&#65039; AMC / Appraiser:</strong> ${d.amc}</td></tr>`:''}
+         ${d.asd?`<tr><td style="padding:8px 16px;font-size:14px;font-family:Arial,sans-serif;background-color:#edf1f6;border-bottom:1px solid #e0e4ea;"><strong>&#128197; Scheduled Date:</strong> <strong>${fd(d.asd)}</strong></td></tr>`:''}
+         ${d.ad?`<tr><td style="padding:8px 16px;font-size:14px;font-family:Arial,sans-serif;background-color:#fff3e0;border-bottom:1px solid #e0e4ea;"><strong>&#9200; Contingency Deadline:</strong> <strong style="color:#c0392b;">${fd(d.ad)}</strong></td></tr>`:''}
+         ${d.pp?`<tr><td style="padding:8px 16px;font-size:14px;font-family:Arial,sans-serif;background-color:#f7f9fb;border-bottom:1px solid #e0e4ea;"><strong>&#128176; Purchase Price:</strong> ${d.pp}</td></tr>`:''}
+         ${d.cd?`<tr><td style="padding:8px 16px;font-size:14px;font-family:Arial,sans-serif;background-color:#edf1f6;"><strong>&#127968; Closing Date:</strong> ${fd(d.cd)}</td></tr>`:''}
+       </table>
+       ${d.la?partyBox(this.c,'Listing Agent',d.la,[
+         'Ensure property access for the appraiser on the scheduled date.',
+         'Prepare a list of recent comparable sales if available.',
+       ]):''}
+       ${d.lo?partyBox(this.c,'Loan Officer',d.lo,[
+         'Confirm appraisal ordered through <strong>'+(d.amc||'[Appraiser/AMC]')+'</strong>.',
+         'Share appraisal results with all parties upon receipt.',
+       ]):''}
+       ${d.at?partyBox(this.c,'Attorney',d.at,['Note the appraisal contingency deadline in your file.']):''}`,
+    d);}
+  },
+  ctc:{lbl:'&#127881; Clear to Close',sub:'Lender issued Clear to Close!',c:'#1a7a4a',
+    flds:[
+      {s:'Property',f:[
+        {id:'pa',l:'Property Address',ph:'123 Main St, Atlanta, GA'},
+        {id:'la',l:'Listing Agent',ph:'John Smith'},
+        {id:'at',l:'Attorney / Firm',ph:'ABC Law Firm'},
+        {id:'lo',l:'Loan Officer',ph:'Jane Doe'},
+      ]},
+      {s:'Closing Details',f:[
+        {id:'cd',l:'Closing Date',tp:'date'},
+        {id:'ct',l:'Closing Time',tp:'time'},
+        {id:'loc',l:'Closing Location',ph:'ABC Title, 123 Main St, Atlanta'},
+        {id:'wa',l:'Wire / Cashier Check Amount',ph:'$XXX,XXX.XX'},
+        {id:'fw',l:'Final Walkthrough',tp:'datetime-local'},
+      ]},
+      {s:'Key Dates',f:[{id:'pp',l:'Purchase Price',ph:'$350,000'}]},
+    ],
+    gen(d){return buildEmail(this.c,'&#127881;','Clear to Close!',d.pa,
+      `${alertBox('#e8f5ee','#a8dfc0','&#127881; <strong>Excellent news!</strong> The lender has officially issued a <strong>Clear to Close</strong> for the property at <strong>${d.pa||'[Property Address]'}</strong>. We are on track for a smooth closing!')}
+       ${secH(this.c,'Closing Details')}
+       <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="border-left:4px solid ${this.c};margin-bottom:12px;">
+         ${d.cd?`<tr><td style="padding:8px 16px;font-size:14px;font-family:Arial,sans-serif;background-color:#f7f9fb;border-bottom:1px solid #e0e4ea;"><strong>&#128197; Closing Date:</strong> <strong>${fd(d.cd)}</strong></td></tr>`:''}
+         ${d.ct?`<tr><td style="padding:8px 16px;font-size:14px;font-family:Arial,sans-serif;background-color:#edf1f6;border-bottom:1px solid #e0e4ea;"><strong>&#128336; Closing Time:</strong> <strong>${d.ct}</strong></td></tr>`:''}
+         ${d.loc?`<tr><td style="padding:8px 16px;font-size:14px;font-family:Arial,sans-serif;background-color:#f7f9fb;border-bottom:1px solid #e0e4ea;"><strong>&#128205; Location:</strong> ${d.loc}</td></tr>`:''}
+         ${d.wa?`<tr><td style="padding:8px 16px;font-size:14px;font-family:Arial,sans-serif;background-color:#e8f5ee;border-bottom:1px solid #e0e4ea;"><strong>&#128184; Wire Amount:</strong> <strong style="color:#1a7a4a;">${d.wa}</strong></td></tr>`:''}
+         ${d.fw?`<tr><td style="padding:8px 16px;font-size:14px;font-family:Arial,sans-serif;background-color:#f7f9fb;border-bottom:1px solid #e0e4ea;"><strong>&#128694; Final Walkthrough:</strong> ${fdt(d.fw)}</td></tr>`:''}
+         ${d.pp?`<tr><td style="padding:8px 16px;font-size:14px;font-family:Arial,sans-serif;background-color:#edf1f6;"><strong>&#128176; Purchase Price:</strong> ${d.pp}</td></tr>`:''}
+       </table>
+       ${d.la?partyBox(this.c,'Listing Agent',d.la,[
+         'Confirm all agreed repairs are completed.',
+         'Schedule final walkthrough'+(d.fw?' for <strong>'+fdt(d.fw)+'</strong>':'.')+' .',
+         'Ensure all personal property listed in contract remains.',
+       ]):''}
+       ${d.at?partyBox(this.c,'Attorney',d.at,[
+         'Prepare and send final Closing Disclosure (CD).',
+         'Confirm wiring instructions with the buyer.',
+         'Have all closing documents ready for signing.',
+       ]):''}
+       ${d.lo?partyBox(this.c,'Loan Officer',d.lo,[
+         'Forward final loan package to closing attorney.',
+         'Confirm funding timeline for closing day.',
+       ]):''}`,
+    d);}
+  },
+  fw:{lbl:'&#128694; Final Walkthrough',sub:'Pre-closing property verification notice',c:'#b45309',
+    flds:[
+      {s:'Property',f:[
+        {id:'pa',l:'Property Address',ph:'123 Main St, Atlanta, GA'},
+        {id:'la',l:'Listing Agent',ph:'John Smith'},
+        {id:'at',l:'Attorney / Firm',ph:'ABC Law Firm'},
+      ]},
+      {s:'Walkthrough Details',f:[
+        {id:'wdt',l:'Walkthrough Date & Time',tp:'datetime-local'},
+        {id:'cd',l:'Closing Date',tp:'date'},
+        {id:'ct',l:'Closing Time',tp:'time'},
+      ]},
+    ],
+    gen(d){return buildEmail(this.c,'&#128694;','Final Walkthrough Notice',d.pa,
+      `<p style="margin:0 0 16px;font-size:15px;font-family:Arial,sans-serif;">This is a reminder that the <strong>final walkthrough</strong> for <strong>${d.pa||'[Property Address]'}</strong> is scheduled${d.wdt?' for <strong>'+fdt(d.wdt)+'</strong>':''}. The purpose of this walkthrough is to verify the property's condition prior to closing.</p>
+       <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="border-left:4px solid ${this.c};margin-bottom:12px;">
+         ${d.wdt?`<tr><td style="padding:8px 16px;font-size:14px;font-family:Arial,sans-serif;background-color:#f7f9fb;border-bottom:1px solid #e0e4ea;"><strong>&#128197; Date &amp; Time:</strong> <strong>${fdt(d.wdt)}</strong></td></tr>`:''}
+         ${d.cd?`<tr><td style="padding:8px 16px;font-size:14px;font-family:Arial,sans-serif;background-color:#edf1f6;"><strong>&#127968; Closing Date:</strong> ${fd(d.cd)}${d.ct?' at <strong>'+d.ct+'</strong>':''}</td></tr>`:''}
+       </table>
+       ${secH(this.c,'Walkthrough Checklist')}
+       ${infoBox(this.c,'<ul style="margin:0;padding-left:20px;line-height:1.9;"><li style="margin-bottom:5px;font-size:14px;font-family:Arial,sans-serif;">&#9989; All agreed repairs have been completed</li><li style="margin-bottom:5px;font-size:14px;font-family:Arial,sans-serif;">&#9989; All seller personal belongings have been removed</li><li style="margin-bottom:5px;font-size:14px;font-family:Arial,sans-serif;">&#9989; All appliances included in contract are present and working</li><li style="margin-bottom:5px;font-size:14px;font-family:Arial,sans-serif;">&#9989; No new damage since the inspection</li><li style="margin-bottom:5px;font-size:14px;font-family:Arial,sans-serif;">&#9989; Keys, garage openers, and access codes are available</li></ul>')}
+       ${d.la?partyBox(this.c,'Listing Agent',d.la,[
+         'Ensure property is in agreed condition for walkthrough.',
+         'Confirm access for buyer and their agent.',
+       ]):''}
+       ${d.at?partyBox(this.c,'Attorney',d.at,['Closing remains on schedule. Please have all documents ready.']):''}`,
+    null);}
+  },
+  cl:{lbl:'&#127969; Closing Confirmed',sub:"Closing day — congratulations!",c:'#1f3b57',
+    flds:[
+      {s:'Property',f:[
+        {id:'pa',l:'Property Address',ph:'123 Main St, Atlanta, GA'},
+        {id:'la',l:'Listing Agent',ph:'John Smith'},
+        {id:'at',l:'Attorney / Firm',ph:'ABC Law Firm'},
+        {id:'lo',l:'Loan Officer',ph:'Jane Doe'},
+      ]},
+      {s:'Closing Details',f:[
+        {id:'cd',l:'Closing Date',tp:'date'},
+        {id:'ct',l:'Closing Time',tp:'time'},
+        {id:'loc',l:'Closing Location',ph:'ABC Title, 123 Main St'},
+        {id:'wa',l:'Wire Amount',ph:'$XXX,XXX.XX'},
+        {id:'pp',l:'Purchase Price',ph:'$350,000'},
+      ]},
+    ],
+    gen(d){return buildEmail(this.c,'&#127969;','Closing Day Confirmation',d.pa,
+      `${alertBox('#e8f0f9','#b8d4f0','&#127882; We are <strong>officially closing today</strong> on <strong>${d.pa||'[Property Address]'}</strong>! It has been a pleasure working with all parties on this transaction. &#127881;')}
+       ${secH(this.c,'Closing Details')}
+       <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="border-left:4px solid ${this.c};margin-bottom:12px;">
+         ${d.cd?`<tr><td style="padding:8px 16px;font-size:14px;font-family:Arial,sans-serif;background-color:#f7f9fb;border-bottom:1px solid #e0e4ea;"><strong>&#128197; Closing Date:</strong> <strong>${fd(d.cd)}</strong></td></tr>`:''}
+         ${d.ct?`<tr><td style="padding:8px 16px;font-size:14px;font-family:Arial,sans-serif;background-color:#edf1f6;border-bottom:1px solid #e0e4ea;"><strong>&#128336; Closing Time:</strong> <strong>${d.ct}</strong></td></tr>`:''}
+         ${d.loc?`<tr><td style="padding:8px 16px;font-size:14px;font-family:Arial,sans-serif;background-color:#f7f9fb;border-bottom:1px solid #e0e4ea;"><strong>&#128205; Location:</strong> ${d.loc}</td></tr>`:''}
+         ${d.wa?`<tr><td style="padding:8px 16px;font-size:14px;font-family:Arial,sans-serif;background-color:#e8f5ee;border-bottom:1px solid #e0e4ea;"><strong>&#128184; Wire Amount:</strong> <strong style="color:#1a7a4a;">${d.wa}</strong></td></tr>`:''}
+         ${d.pp?`<tr><td style="padding:8px 16px;font-size:14px;font-family:Arial,sans-serif;background-color:#edf1f6;"><strong>&#128176; Purchase Price:</strong> <strong>${d.pp}</strong></td></tr>`:''}
+       </table>
+       ${d.la?partyBox(this.c,'Listing Agent',d.la,[
+         'Have keys, garage openers, and access codes ready.',
+         'Confirm all final contract items are addressed.',
+       ]):''}
+       ${d.at?partyBox(this.c,'Attorney',d.at,[
+         'Have all documents prepared for signing.',
+         'Confirm loan funds are released and ready.',
+       ]):''}
+       ${d.lo?partyBox(this.c,'Loan Officer',d.lo,[
+         'Confirm loan funds are released on time.',
+         'Thank you for your work on this file! &#128591;',
+       ]):''}`,
+    d);}
+  },
+  ut:{lbl:'&#9889; Utility Services',sub:'Request utility info from seller before closing',c:'#0c5e8a',
+    flds:[
+      {s:'Property',f:[
+        {id:'pa',l:'Property Address',ph:'123 Main St, Atlanta, GA'},
+        {id:'sn',l:'Seller Name',ph:'Mr./Mrs. [Seller]'},
+        {id:'la',l:'Listing Agent',ph:'John Smith'},
+        {id:'at',l:'Attorney / Firm',ph:'ABC Law Firm'},
+      ]},
+      {s:'Known Providers (optional)',f:[
+        {id:'uel',l:'Electric Provider',ph:'Georgia Power / FPL'},
+        {id:'ugs',l:'Gas Provider',ph:'Atlanta Gas Light'},
+        {id:'uwt',l:'Water / Sewer',ph:'City of Atlanta'},
+        {id:'utr',l:'Trash / Recycling',ph:'City service'},
+        {id:'uit',l:'Internet / Cable',ph:'Comcast / AT&T'},
+        {id:'uha',l:'HOA (if any)',ph:'HOA Name / N/A'},
+      ]},
+      {s:'Key Dates',f:[
+        {id:'cd',l:'Closing Date',tp:'date'},
+        {id:'rd',l:'Response Needed By',tp:'date'},
+      ]},
+    ],
+    gen(d){
+      const ur=(icon,lbl,val,bg)=>`<tr>
+        <td bgcolor="${bg}" style="padding:8px 12px;border-bottom:1px solid #e0e4ea;font-size:13px;font-family:Arial,sans-serif;background-color:${bg};">${icon} ${lbl}</td>
+        <td bgcolor="${bg}" style="padding:8px 12px;border-bottom:1px solid #e0e4ea;font-size:13px;font-family:Arial,sans-serif;color:#555555;background-color:${bg};">${val||'___________'}</td>
+        <td bgcolor="${bg}" style="padding:8px 12px;border-bottom:1px solid #e0e4ea;font-size:13px;font-family:Arial,sans-serif;color:#999999;background-color:${bg};">___________</td>
+        <td bgcolor="${bg}" style="padding:8px 12px;border-bottom:1px solid #e0e4ea;font-size:13px;font-family:Arial,sans-serif;color:#999999;background-color:${bg};">___________</td>
+      </tr>`;
+      return buildEmail(this.c,'&#9889;','Utility Services Request',d.pa,
+        `<p style="margin:0 0 6px;font-size:15px;font-weight:bold;font-family:Arial,sans-serif;">Dear ${d.sn||'Seller'} / ${d.la||'Listing Agent'},</p>
+         <p style="margin:0 0 16px;font-size:15px;font-family:Arial,sans-serif;">As we approach the closing date${d.cd?' of <strong>'+fd(d.cd)+'</strong>':''} for <strong>${d.pa||'[Property Address]'}</strong>, we kindly request the <strong>utility account information</strong> so the buyer can arrange timely service transfers.</p>
+         ${d.rd?alertBox('#fff3e0','#ffcc80','&#9200; <strong>Please respond by: '+fd(d.rd)+'</strong>'):''}
+         ${secH(this.c,'Utility Information Requested')}
+         <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="border:1px solid #dddddd;border-radius:6px;overflow:hidden;margin-bottom:16px;">
+           <tr>
+             <td colspan="4" bgcolor="${this.c}" style="background-color:${this.c};">
+               <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+                 <tr>
+                   <th style="padding:8px 12px;text-align:left;font-size:12px;color:#ffffff;font-family:Arial,sans-serif;font-weight:bold;width:22%;">Service</th>
+                   <th style="padding:8px 12px;text-align:left;font-size:12px;color:#ffffff;font-family:Arial,sans-serif;font-weight:bold;width:26%;">Provider</th>
+                   <th style="padding:8px 12px;text-align:left;font-size:12px;color:#ffffff;font-family:Arial,sans-serif;font-weight:bold;width:26%;">Account #</th>
+                   <th style="padding:8px 12px;text-align:left;font-size:12px;color:#ffffff;font-family:Arial,sans-serif;font-weight:bold;width:26%;">Phone #</th>
+                 </tr>
+               </table>
+             </td>
+           </tr>
+           ${ur('&#9889;','Electric',d.uel,'#f7f9fb')}
+           ${ur('&#128293;','Gas',d.ugs,'#edf1f6')}
+           ${ur('&#128167;','Water/Sewer',d.uwt,'#f7f9fb')}
+           ${ur('&#128465;&#65039;','Trash',d.utr,'#edf1f6')}
+           ${ur('&#128225;','Internet',d.uit,'#f7f9fb')}
+           ${(d.uha&&d.uha.toLowerCase()!=='n/a'&&d.uha.trim())?ur('&#127968;','HOA',d.uha,'#edf1f6'):''}
+         </table>
+         ${d.sn?partyBox(this.c,'Seller',d.sn,[
+           'Reply with the completed utility information above.',
+           'Schedule service cancellation or transfer on the closing date.',
+           'Provide HOA contact and any transfer fees if applicable.',
+         ]):''}
+         ${d.la?partyBox(this.c,'Listing Agent',d.la,[
+           'Please assist the seller in gathering this information promptly.',
+           'Confirm all utility accounts will be current (no past-due balances) at closing.',
+         ]):''}
+         ${alertBox('#e8f0f9','#b8d4f0','&#128161; <strong>Note to Buyer:</strong> Once utility provider information is received, please contact each company at least <strong>5-7 business days before closing</strong> to schedule service activation in your name.')}`,
+      null);}
+  },
+  ca:{lbl:'&#128221; Commission Agreement',sub:'Send commission agreement to all parties',c:'#1f3b57',
+    flds:[
+      {s:'Property & Parties',f:[
+        {id:'pa',l:'Property Address',ph:'123 Main St, Atlanta, GA'},
+        {id:'comm',l:'Commission Terms',ph:'3% each side / 6% total'},
+        {id:'la',l:'Listing Agent',ph:'John Smith'},
+        {id:'at',l:'Attorney / Firm',ph:'ABC Law Firm'},
+      ]},
+      {s:'Key Dates',f:[
+        {id:'cd',l:'Closing Date',tp:'date'},
+        {id:'rd',l:'Response Needed By',tp:'date'},
+      ]},
+    ],
+    gen(d){return buildEmail(this.c,'&#128221;','Commission Agreement',d.pa,
+      `<p style="margin:0 0 16px;font-size:15px;font-family:Arial,sans-serif;">Attached please find the <strong>Commission Agreement</strong> for <strong>${d.pa||'[Property Address]'}</strong>. This document outlines the compensation structure agreed upon for this transaction.</p>
+       <p style="margin:0 0 16px;font-size:15px;font-family:Arial,sans-serif;">Kindly review at your earliest convenience. Should you require any clarification or revision, please reply-all so everyone stays informed.</p>
+       ${secH(this.c,'Agreement Snapshot')}
+       ${infoBox(this.c,
+         '<p style="margin:0 0 8px;font-size:14px;font-family:Arial,sans-serif;">&#128206; <strong>Document:</strong> Attached PDF or secure e-signature link</p>'+
+         '<p style="margin:0 0 8px;font-size:14px;font-family:Arial,sans-serif;">&#129309; <strong>Parties:</strong> All brokerages participating in this sale</p>'+
+         '<p style="margin:0;font-size:14px;font-family:Arial,sans-serif;">&#128188; <strong>Commission Terms:</strong> '+(d.comm||'[Commission Details]')+'</p>'
+       )}
+       ${secH(this.c,'Next Steps')}
+       <p style="margin:0 0 16px;font-size:14px;font-family:Arial,sans-serif;">&#8226; Confirm receipt of the agreement.<br/>&#8226; Sign and return via the platform or email.<br/>&#8226; Let us know of any edits or questions.</p>
+       ${d.la?partyBox(this.c,'Listing Agent',d.la,[
+         'Review and sign the commission agreement.',
+         'Return signed copy at your earliest convenience.',
+         'Reply-all with any questions or revisions.',
+       ]):''}
+       ${d.at?partyBox(this.c,'Attorney',d.at,[
+         'Note the commission terms in the closing file.',
+         'Ensure proper disbursement at closing per the agreement.',
+       ]):''}
+       ${(d.cd||d.rd)?`${secH(this.c,'Key Dates')}
+       <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="border-left:4px solid ${this.c};margin-bottom:12px;">
+         ${d.rd?`<tr><td style="padding:8px 16px;font-size:14px;font-family:Arial,sans-serif;background-color:#fff3e0;border-bottom:1px solid #e0e4ea;"><strong>&#9200; Response Needed By:</strong> <strong style="color:#c0392b;">${fd(d.rd)}</strong></td></tr>`:''}
+         ${d.cd?`<tr><td style="padding:8px 16px;font-size:14px;font-family:Arial,sans-serif;background-color:#f7f9fb;"><strong>&#127968; Closing Date:</strong> ${fd(d.cd)}</td></tr>`:''}
+       </table>`:''}
+       ${alertBox('#e8f0f9','#b8d4f0','&#10024; <strong>Working with a dedicated Transaction Coordinator</strong> keeps every milestone on track and lets you focus on a successful closing — we appreciate your partnership!')}`,
+    null);}
+  }
+};
+
+// ═══════════════════════════════════════════
+// STATE & LOGIC
+// ═══════════════════════════════════════════
+let cur='uc', lastHTML='', hist=[], rIdx=3, tmr=null;
+
+function go(key,el){
+  cur=key; rIdx=3;
+  document.querySelectorAll('.sb-lnk').forEach(x=>x.classList.remove('on'));
+  if(el)el.classList.add('on');
+  buildForm(key);
+}
+
+function buildForm(key){
+  const t=T[key];
+  document.getElementById('ft').innerHTML=t.lbl;
+  document.getElementById('fs').textContent=t.sub;
+  let h='';
+  t.flds.forEach(s=>{
+    h+=`<div class="fsec">${s.s}</div>`;
+    s.f.forEach(f=>{
+      if(f.tp==='repairs'){
+        h+=`<div id="rw"><div id="rl">`;
+        for(let i=0;i<3;i++) h+=rRow(i);
+        h+=`</div><button class="add-r" onclick="addR()">+ Add repair item</button></div>`;
+      } else if(f.tp==='select'){
+        h+=`<div class="fg"><label>${f.l}</label><select id="f_${f.id}" onchange="upd()">${f.opts.map(o=>`<option>${o}</option>`).join('')}</select></div>`;
+      } else {
+        h+=`<div class="fg"><label>${f.l}</label><input type="${f.tp||'text'}" id="f_${f.id}" placeholder="${f.ph||''}" oninput="upd()"/></div>`;
+      }
+    });
+  });
+  document.getElementById('fb').innerHTML=h;
+  upd();
+}
+
+function rRow(i){return`<div class="rep-row" id="rr${i}"><input placeholder="Repair item ${i+1}..." oninput="upd()" id="rp${i}"/><button class="rm-r" onclick="rmR(${i})">&#215;</button></div>`;}
+function addR(){const i=rIdx++;const w=document.getElementById('rl');if(!w)return;const d=document.createElement('div');d.className='rep-row';d.id='rr'+i;d.innerHTML=`<input placeholder="Repair item ${i+1}..." oninput="upd()" id="rp${i}"/><button class="rm-r" onclick="rmR(${i})">&#215;</button>`;w.appendChild(d);}
+function rmR(i){const el=document.getElementById('rr'+i);if(el){el.remove();upd();}}
+
+function getData(){
+  const d={};
+  document.querySelectorAll('[id^="f_"]').forEach(el=>{d[el.id.replace('f_','')]=el.value.trim();});
+  const r=[];document.querySelectorAll('[id^="rp"]').forEach(el=>{if(el.value.trim())r.push(el.value.trim());});
+  d._repairs=r;return d;
+}
+
+function upd(){
+  clearTimeout(tmr);
+  tmr=setTimeout(()=>{
+    try{
+      lastHTML=T[cur].gen(getData());
+      document.getElementById('frm').srcdoc=lastHTML;
+    }catch(e){console.error(e);}
+  },150);
+}
+
+function resF(){}
+
+
+
+function doPreviewWin(){
+  if(!lastHTML){upd();setTimeout(doPreviewWin,300);return;}
+  const w=window.open('','_blank','width=700,height=900,scrollbars=yes');
+  w.document.open();
+  w.document.write(lastHTML);
+  w.document.close();
+  toast('&#128065; Email abierto — Cmd+A, Cmd+C, luego pega en Outlook','ok');
+  addHist();
+}
+
+function addHist(){
+  const d=getData();
+  hist.unshift({addr:d.pa||d.prop_address||'[Address]',key:cur,ts:new Date().toLocaleTimeString()});
+  if(hist.length>5)hist.pop();
+  document.getElementById('hist').innerHTML=hist.map(h=>`
+    <div style="padding:5px 12px;cursor:pointer;font-size:11px;color:rgba(255,255,255,.4);display:flex;align-items:center;gap:6px;transition:background .12s" onmouseover="this.style.background='rgba(255,255,255,.05)'" onmouseout="this.style.background=''" onclick="go('${h.key}',null)">
+      <span style="flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${h.addr}</span>
+      <span style="font-size:9px;opacity:.4">${h.ts}</span>
+    </div>`).join('');
+}
+
+function toast(msg,type){
+  const w=document.getElementById('tw');const t=document.createElement('div');
+  t.className='tst '+(type||'');t.innerHTML=msg;
+  w.appendChild(t);setTimeout(()=>t.remove(),5000);
+}
+
+buildForm('uc');
+function doDL(){
+  if(!lastHTML){ upd(); setTimeout(doDL,300); return; }
+  const d = getData();
+  const slug = (d.pa||'email').replace(/[^a-z0-9]/gi,'_').toLowerCase().slice(0,25);
+  const fname = 'TC_email_'+slug+'.html';
+  const blob = new Blob([lastHTML],{type:'text/html'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = fname;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  toast('Descargado! Corre tcopen en Terminal','gold','ti-download');
+}
+</script>
+</body>
+</html>
