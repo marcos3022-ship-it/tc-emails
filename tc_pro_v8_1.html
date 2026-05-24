@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>TC Email Generator — Jenny F Mendoza Realty</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'IBM Plex Sans',Arial,sans-serif;background:#eef0f4;height:100vh;overflow:hidden;color:#1a202c}
+.app{display:flex;height:100vh}
+.sb{width:210px;background:#0d1e2e;flex-shrink:0;display:flex;flex-direction:column;overflow-y:auto}
+.sb-logo{padding:14px 12px 10px;border-bottom:1px solid rgba(255,255,255,.08)}
+.sb-logo-t{font-size:16px;font-weight:600;color:#fff}
+.sb-logo-s{font-size:9px;color:rgba(255,255,255,.3);text-transform:uppercase;letter-spacing:.1em;margin-top:2px}
+.sb-sec{font-size:9px;font-weight:700;color:rgba(255,255,255,.28);padding:10px 12px 3px;text-transform:uppercase;letter-spacing:.09em}
+.sb-lnk{display:flex;align-items:center;gap:7px;padding:7px 12px;cursor:pointer;font-size:12px;color:rgba(255,255,255,.5);border-left:2px solid transparent;transition:all .12s}
+.sb-lnk:hover{background:rgba(255,255,255,.05);color:rgba(255,255,255,.85)}
+.sb-lnk.on{background:rgba(255,255,255,.09);color:#fff;border-left-color:#c9a84c;font-weight:600}
+.sb-lnk i{font-size:14px;opacity:.7;flex-shrink:0}
+.sb-foot{margin-top:auto;padding:10px 12px;border-top:1px solid rgba(255,255,255,.07);font-size:10px;color:rgba(255,255,255,.25);line-height:1.6}
+.fc{width:340px;flex-shrink:0;background:#fff;border-right:1px solid #dde1e8;display:flex;flex-direction:column;overflow:hidden}
+.fc-hdr{padding:12px 14px 10px;border-bottom:1px solid #dde1e8;flex-shrink:0}
+.fc-title{font-size:15px;font-weight:600;color:#1f3b57}
+.fc-sub{font-size:11px;color:#8896aa;margin-top:2px}
+.fc-body{flex:1;overflow-y:auto;padding:10px 14px}
+.fsec{font-size:9px;font-weight:700;color:#1f3b57;text-transform:uppercase;letter-spacing:.07em;padding:8px 0 3px;border-bottom:1px solid #dde1e8;margin:4px 0 7px}
+.fg{margin-bottom:7px}
+.fg label{display:block;font-size:10px;font-weight:700;color:#4a5568;margin-bottom:2px;text-transform:uppercase;letter-spacing:.04em}
+.fg input,.fg select{width:100%;padding:6px 9px;border:1px solid #b0b8c8;border-radius:6px;background:#fff;color:#1a202c;font-family:inherit;font-size:12px;outline:none}
+.fg input:focus,.fg select:focus{border-color:#1f3b57}
+.rep-row{display:flex;gap:5px;margin-bottom:4px;align-items:center}
+.rep-row input{flex:1;padding:5px 8px;border:1px solid #b0b8c8;border-radius:6px;font-size:12px;font-family:inherit;outline:none}
+.add-r{width:100%;background:none;border:1px dashed #b0b8c8;color:#8a96a8;font-size:11px;padding:5px;border-radius:6px;cursor:pointer;font-family:inherit;margin-top:2px}
+.add-r:hover{border-color:#1f3b57;color:#1f3b57}
+.rm-r{background:none;border:none;cursor:pointer;color:#8a96a8;font-size:15px;padding:0 4px;line-height:1}
+.rm-r:hover{color:#c0392b}
+.fc-foot{padding:10px 14px;border-top:1px solid #dde1e8;flex-shrink:0;display:flex;gap:6px;flex-wrap:wrap}
+.btn{padding:7px 13px;border-radius:6px;border:none;cursor:pointer;font-family:inherit;font-size:12px;font-weight:600;display:inline-flex;align-items:center;gap:4px;transition:all .15s}
+.b-navy{background:#1f3b57;color:#fff}.b-navy:hover{background:#162c42}
+.b-gold{background:#c9a84c;color:#1a1a1a}.b-gold:hover{background:#a8882a;color:#fff}
+.b-green{background:#1a7a4a;color:#fff}.b-green:hover{background:#145e39}
+.b-out{background:transparent;border:1px solid #b0b8c8;color:#4a5568;font-size:11px;padding:5px 10px}
+.pc{flex:1;display:flex;flex-direction:column;overflow:hidden}
+.pbar{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:#fff;border-bottom:1px solid #dde1e8;flex-shrink:0}
+.pbar-t{font-size:13px;font-weight:600;color:#1f3b57;display:flex;align-items:center;gap:7px}
+.live{display:inline-flex;align-items:center;gap:4px;font-size:9px;font-weight:700;color:#1a7a4a;background:#e6f4ee;padding:2px 7px;border-radius:99px}
+.ldot{width:5px;height:5px;border-radius:50%;background:#1a7a4a;animation:blink 1.5s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+.pbody{flex:1;overflow-y:auto;padding:14px;background:#eef0f4}
+.pcard{background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,.07);border:1px solid #dde1e8}
+iframe{width:100%;border:none;display:block;min-height:600px}
+.tw{position:fixed;bottom:14px;right:14px;z-index:9999;display:flex;flex-direction:column;gap:5px}
+.tst{background:#1f3b57;color:#fff;padding:8px 12px;border-radius:6px;font-size:12px;display:flex;align-items:center;gap:6px;animation:tIn .15s ease;max-width:320px;box-shadow:0 3px 10px rgba(0,0,0,.2)}
+.tst.ok{background:#1a7a4a}.tst.gold{background:#c9a84c;color:#1a1a1a}
+@keyframes tIn{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
+</style>
+</head>
+<body>
+<div class="app">
+
+<div class="sb">
+  <div class="sb-logo"><div class="sb-logo-t">TC Emails Pro</div><div class="sb-logo-s">Jenny F Mendoza Realty</div></div>
+  <div class="sb-sec">Templates</div>
+  <div class="sb-lnk on" onclick="go('uc',this)"><i class="ti ti-file-check"></i>Under Contract</div>
+  <div class="sb-lnk" onclick="go('co',this)"><i class="ti ti-currency-dollar"></i>Cash Offer</div>
+  <div class="sb-lnk" onclick="go('of',this)"><i class="ti ti-file-plus"></i>Offer Submitted</div>
+  <div class="sb-lnk" onclick="go('ins',this)"><i class="ti ti-tool"></i>Inspection Notice</div>
+  <div class="sb-lnk" onclick="go('am',this)"><i class="ti ti-edit"></i>Amendment – Repairs</div>
+  <div class="sb-lnk" onclick="go('ap',this)"><i class="ti ti-chart-bar"></i>Appraisal Notice</div>
+  <div class="sb-lnk" onclick="go('ctc',this)"><i class="ti ti-circle-check"></i>Clear to Close</div>
+  <div class="sb-lnk" onclick="go('fw',this)"><i class="ti ti-walk"></i>Final Walkthrough</div>
+  <div class="sb-lnk" onclick="go('cl',this)"><i class="ti ti-home-check"></i>Closing Confirmed</div>
+  <div class="sb-lnk" onclick="go('ut',this)"><i class="ti ti-bolt"></i>Utility Services</div>
+  <div class="sb-lnk" onclick="go('ca',this)"><i class="ti ti-writing"></i>Commission Agreement</div>
+  <div class="sb-sec">Recent</div>
+  <div id="hist"></div>
+  <div class="sb-foot">Marcos A. Pe&#241;a &middot; TC<br/>Jenny F Mendoza Realty Group<br/>(404) 458-1064</div>
+</div>
+
+<div class="fc">
+  <div class="fc-hdr"><div class="fc-title" id="ft">Under Contract</div><div class="fc-sub" id="fs">Fill fields — preview updates live</div></div>
+  <div class="fc-body" id="fb"></div>
+  <div class="fc-foot">
+    <button class="btn b-navy" onclick="doDL()">&#11015; Download Email</button>
+    <button class="btn b-gold" onclick="doWin()">&#128065; Open for Outlook</button>
+  </div>
+</div>
+
+<div class="pc">
+  <div class="pbar">
+    <span class="pbar-t">Preview <span class="live"><span class="ldot"></span>Live</span></span>
+    <div style="display:flex;gap:6px">
+      <button class="btn b-out" onclick="doDL()">&#11015; Download</button>
+      <button class="btn b-navy" style="font-size:11px;padding:5px 10px" onclick="doWin()">&#128065; Open</button>
+    </div>
+  </div>
+  <div class="pbody"><div class="pcard"><iframe id="frm" onload="resF()"></iframe></div></div>
+</div>
+</div>
+<div class="tw" id="tw"></div>
+
+<script>
+var LOGO='https://lh3.googleusercontent.com/pw/AP1GczNsAfN2KZDltdOuTVp3cBvGnq92-4OD0craTxuSLZTLuqvWoc3LUqjmYMDJeoDCtyarei0HdKVpAWKvOgKmFKu4-r7EXKs-CqzD23xcaBBmlsq7pyF-adxykTCYNflVKZegSOMo4Y4BkfkhjRceQ8941A=w869-h869-s-no-gm?authuser=0';
+var JENNY='https://www.dropbox.com/scl/fi/9j87zvvjr53h4g8rzd5kb/bae74f4e-b6d4-4fb5-8a0d-f8c897344906.jpg?rlkey=73v4hushk450pk4jxlpraxx2j&raw=1';
+
+function fd(v){if(!v)return'';try{return new Date(v+'T12:00:00').toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'});}catch(e){return v;}}
+function fdt(v){if(!v)return'';try{return new Date(v).toLocaleString('en-US',{month:'long',day:'numeric',year:'numeric',hour:'numeric',minute:'2-digit'});}catch(e){return v;}}
+function fsh(v){if(!v)return'';try{return new Date(v+'T12:00:00').toLocaleDateString('en-US',{month:'2-digit',day:'2-digit',year:'2-digit'});}catch(e){return v;}}
+
+// ── CORE EMAIL BUILDER — pure string concat, no template literals ──
+function email(color,emoji,title,addr,body,dates){
+  var ds='';
+  if(dates){
+    var cols=[];
+    if(dates.bd)  cols.push({l:'Binding<br/>Agreement',v:fsh(dates.bd)});
+    if(dates.em&&dates.ed) cols.push({l:'Earnest<br/>Money',v:fsh(dates.ed)});
+    if(dates.dd)  cols.push({l:'Due<br/>Diligence',v:fsh(dates.dd)});
+    if(dates.fd2) cols.push({l:'Financing<br/>Cont.',v:fsh(dates.fd2)});
+    if(dates.ad)  cols.push({l:'Appraisal<br/>Cont.',v:fsh(dates.ad)});
+    if(dates.cd)  cols.push({l:'Closing<br/>Date',v:fsh(dates.cd)});
+    if(cols.length){
+      var w=Math.floor(100/cols.length);
+      var hdr='',vals='';
+      cols.forEach(function(c){
+        hdr+='<td width="'+w+'%" align="center" style="padding:8px 4px;font-size:12px;font-weight:bold;color:#1f3b57;font-family:Arial,sans-serif;border-bottom:2px solid #1f3b57;">'+c.l+'</td>';
+        vals+='<td width="'+w+'%" align="center" style="padding:10px 4px;font-size:14px;font-weight:bold;color:#333333;font-family:Arial,sans-serif;">'+(c.v||'&mdash;')+'</td>';
+      });
+      ds='<p style="margin:16px 0 6px;font-size:11px;font-weight:600;color:#888888;font-family:Arial,sans-serif;text-transform:uppercase;letter-spacing:1px;text-align:center;">&#8213;&#8213; Reminder of Important Dates &#8213;&#8213;</p>'+
+         '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color:#f7f9fb;border:1px solid #e0e4ea;border-radius:8px;margin-bottom:12px;"><tr>'+hdr+'</tr><tr>'+vals+'</tr></table>'+
+         '<p style="margin:0 0 14px;font-size:11px;color:#888888;font-family:Arial,sans-serif;text-align:center;font-style:italic;">Please confirm dates on the attached contract.</p>';
+    }
+  }
+  return '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">'+
+    '<html xmlns="http://www.w3.org/1999/xhtml"><head>'+
+    '<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>'+
+    '<title>'+title+'</title></head>'+
+    '<body style="margin:0;padding:20px;background-color:#e8eaee;">'+
+    '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color:#f0f2f5;">'+
+    '<tr><td align="center" style="padding:24px 10px;">'+
+    '<table role="presentation" width="600" cellpadding="0" cellspacing="0" border="0" style="width:600px;background-color:#ffffff;border-radius:10px;overflow:hidden;border:1px solid #dddddd;">'+
+    '<tr><td align="center" bgcolor="'+color+'" style="background-color:'+color+';padding:24px 20px 20px;">'+
+    '<img src="'+LOGO+'" width="260" style="display:block;border:0;margin:0 auto 14px;" alt="Jenny F Mendoza Realty"/>'+
+    '<p style="margin:0;font-size:23px;font-weight:bold;color:#ffffff;font-family:Arial,sans-serif;line-height:1.3;">'+emoji+' '+title+'</p>'+
+    '<p style="margin:7px 0 0;font-size:15px;color:rgba(255,255,255,0.88);font-family:Arial,sans-serif;">'+(addr||'[Property Address]')+'</p>'+
+    '</td></tr>'+
+    '<tr><td height="4" bgcolor="#00a651" style="background-color:#00a651;font-size:1px;line-height:1px;">&nbsp;</td></tr>'+
+    '<tr><td style="padding:24px 28px 8px;font-family:Arial,sans-serif;font-size:15px;color:#333333;line-height:1.65;">'+
+    '<p style="margin:0 0 14px;">Dear All,</p>'+
+    body+ds+
+    '<p style="margin:14px 0 0;font-size:14px;font-family:Arial,sans-serif;">Thank you for your cooperation. Please do not hesitate to contact me or Jenny Mendoza with any questions.</p>'+
+    '</td></tr>'+
+    '<tr><td style="padding:16px 28px;">'+
+    '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color:#f5f7fa;border-radius:8px;">'+
+    '<tr><td align="center" style="padding:18px;">'+
+    '<p style="margin:0 0 10px;font-size:12px;font-weight:bold;color:#888888;font-family:Arial,sans-serif;text-transform:uppercase;letter-spacing:1px;">MEET YOUR AGENT</p>'+
+    '<img src="'+JENNY+'" width="180" style="display:block;border-radius:10px;border:2px solid #dddddd;margin:0 auto 12px;" alt="Jenny Mendoza"/>'+
+    '<p style="margin:0;font-size:15px;font-weight:bold;color:#1f3b57;font-family:Arial,sans-serif;">Jenny Mendoza</p>'+
+    '<p style="margin:3px 0 0;font-size:13px;color:#666666;font-family:Arial,sans-serif;">Jenny F Mendoza Realty Group</p>'+
+    '</td></tr></table></td></tr>'+
+    '<tr><td align="center" style="padding:0 28px 14px;">'+
+    '<table role="presentation" cellpadding="0" cellspacing="0" border="0"><tr>'+
+    '<td style="padding:0 6px;"><a href="mailto:marcos@jennyfmendozarealtyg.com" style="display:inline-block;background-color:'+color+';color:#ffffff;text-decoration:none;padding:12px 22px;border-radius:5px;font-size:14px;font-weight:bold;font-family:Arial,sans-serif;">Contact Marcos</a></td>'+
+    '<td style="padding:0 6px;"><a href="mailto:jennyfmendozarealtor@outlook.com" style="display:inline-block;background-color:#3b6ea5;color:#ffffff;text-decoration:none;padding:12px 22px;border-radius:5px;font-size:14px;font-weight:bold;font-family:Arial,sans-serif;">Contact Jenny</a></td>'+
+    '</tr></table></td></tr>'+
+    '<tr><td align="center" style="padding:0 28px 20px;">'+
+    '<p style="margin:0;font-size:13px;color:#555555;font-family:Arial,sans-serif;line-height:1.9;text-align:center;">'+
+    '&#128222; Transaction Coordinator: Marcos A. Pe&#241;a<br/>'+
+    '&#127968; Jenny F Mendoza Realty Group<br/>'+
+    '&#9742;&#65039; Office: (404) 458-1064 &nbsp;|&nbsp; &#128241; Mobile: (678) 701-7101<br/>'+
+    '&#9993;&#65039; marcos@jennyfmendozarealtyg.com'+
+    '</p></td></tr>'+
+    '<tr><td height="4" bgcolor="#00a651" style="background-color:#00a651;font-size:1px;line-height:1px;">&nbsp;</td></tr>'+
+    '<tr><td align="center" bgcolor="#f0f2f5" style="background-color:#f0f2f5;padding:14px;font-size:11px;color:#888888;font-family:Arial,sans-serif;">'+
+    'Jenny F Mendoza Realty Group | All rights reserved. | '+(addr||'[Property Address]')+
+    '</td></tr>'+
+    '</table></td></tr></table></body></html>';
+}
+
+// ── SHARED BUILDERS ──
+function sec(c,t){
+  return '<p style="margin:16px 0 0;font-size:11px;font-weight:600;color:#888888;font-family:Arial,sans-serif;text-transform:uppercase;letter-spacing:1px;">&#8213;&#8213; '+t+'</p>'+
+    '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin:3px 0 10px;"><tr><td height="3" bgcolor="'+c+'" style="background-color:'+c+';font-size:1px;line-height:1px;">&nbsp;</td></tr></table>';
+}
+function box(c,h){
+  return '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color:#f7f9fb;border-left:4px solid '+c+';border-radius:0 6px 6px 0;margin-bottom:12px;">'+
+    '<tr><td style="padding:13px 16px;font-size:14px;font-family:Arial,sans-serif;color:#333333;line-height:1.7;">'+h+'</td></tr></table>';
+}
+function alrt(bg,br,h){
+  return '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-bottom:12px;">'+
+    '<tr><td style="background-color:'+bg+';border:1px solid '+br+';border-radius:6px;padding:12px 14px;font-size:14px;font-family:Arial,sans-serif;color:#333333;line-height:1.65;">'+h+'</td></tr></table>';
+}
+function dr(c,label,val,bg){
+  return '<tr>'+
+    '<td width="44%" style="padding:8px 14px;font-size:13px;font-family:Arial,sans-serif;background-color:'+bg+';border-bottom:1px solid #e0e4ea;"><strong>'+label+'</strong></td>'+
+    '<td style="padding:8px 14px;font-size:13px;font-family:Arial,sans-serif;background-color:'+bg+';border-bottom:1px solid #e0e4ea;">'+val+'</td></tr>';
+}
+function dt(c,rows){
+  if(!rows.length)return'';
+  return '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="border-left:4px solid '+c+';margin-bottom:12px;">'+rows.join('')+'</table>';
+}
+function party(c,role,name,items){
+  var li=items.filter(function(i){return i&&i.trim();}).map(function(i){
+    return '<li style="margin-bottom:5px;font-size:14px;font-family:Arial,sans-serif;">'+i+'</li>';
+  }).join('');
+  return '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-bottom:12px;">'+
+    '<tr><td style="border-left:4px solid '+c+';padding:12px 16px;background-color:#f7f9fb;border-radius:0 6px 6px 0;">'+
+    '<p style="margin:0 0 5px;font-size:15px;font-weight:bold;color:#1f3b57;font-family:Arial,sans-serif;">'+role+': <span style="color:'+c+';">'+name+'</span></p>'+
+    '<p style="margin:0 0 4px;font-size:13px;font-weight:600;color:#555555;font-family:Arial,sans-serif;">Could you please:</p>'+
+    '<ul style="margin:3px 0 0;padding-left:20px;">'+li+'</ul>'+
+    '</td></tr></table>';
+}
+
+// ── TEMPLATES ──
+var T={
+  uc:{lbl:'&#9989; Under Contract',sub:'Notify all parties the property is under contract',c:'#1f3b57',
+    flds:[
+      {s:'Transaction Parties',f:[
+        {id:'pa',l:'Property Address',ph:'123 Main St, Atlanta, GA 30301'},
+        {id:'la',l:'Listing Agent',ph:'John Smith'},
+        {id:'la_broker',l:'Listing Agent Broker',ph:'Virtual Properties Realty'},
+        {id:'la_email',l:'Listing Agent Email',ph:'agent@email.com'},
+        {id:'la_phone',l:'Listing Agent Phone',ph:'(404) 555-0100'},
+        {id:'at',l:'Attorney / Firm',ph:'ABC Law Firm'},
+        {id:'lo',l:'Loan Officer',ph:'Jane Doe'},
+      ]},
+      {s:'Key Dates',f:[
+        {id:'pp',l:'Purchase Price',ph:'$350,000'},
+        {id:'em',l:'Earnest Money',ph:'$5,000'},
+        {id:'bd',l:'Binding Agreement Date',tp:'date'},
+        {id:'ed',l:'Earnest Money Due Date',tp:'date'},
+        {id:'dd',l:'Due Diligence Date',tp:'date'},
+        {id:'fd2',l:'Financing Contingency Date',tp:'date'},
+        {id:'ad',l:'Appraisal Contingency Date',tp:'date'},
+        {id:'cd',l:'Closing Date',tp:'date'},
+      ]},
+    ],
+    gen:function(d){
+      var la=d.la||'[Listing Agent]';
+      if(d.la_broker) la+=' &mdash; '+d.la_broker;
+      var la_items=['Provide the <strong>CBS code</strong> and/or access instructions.','Provide the <strong>Instructions to Closing Attorney (ITCA)</strong>.'];
+      if(d.la_email) la_items.push('Email: '+d.la_email);
+      if(d.la_phone) la_items.push('Phone: '+d.la_phone);
+      var b='<p style="margin:0 0 6px;font-size:15px;font-weight:bold;font-family:Arial,sans-serif;">Hello Everyone...</p>'+
+        '<p style="margin:0 0 14px;font-size:15px;font-family:Arial,sans-serif;">It is a pleasure to notify that we are <strong>UNDER CONTRACT</strong> in the property <strong>'+(d.pa||'[Property Address]')+'</strong></p>'+
+        '<p style="margin:0 0 14px;font-size:15px;font-family:Arial,sans-serif;">My name is <strong>Marcos A. Pe&#241;a</strong>, Transaction Coordinator for the buyer. Please <strong>CC me on all email correspondence</strong> related to this property.</p>'+
+        '<p style="margin:0 0 14px;font-size:14px;font-style:italic;font-family:Arial,sans-serif;">Please read carefully the following:</p>'+
+        sec(this.c,'Parties Involved')+
+        (d.la?party(this.c,'Listing Agent',la,la_items):'')+
+        (d.at?party(this.c,'Attorney',d.at,['Sign and return the attached <strong>F511 form</strong>.','Provide the buyer with <strong>wiring instructions</strong> for the earnest money deposit.']):'')+
+        (d.lo?party(this.c,'Loan Officer',d.lo,['Confirm receipt of the <strong>appraisal order</strong>.','Forward the <strong>HOI application</strong> to the insurance agent once accepted.']):'');
+      return email(this.c,'&#9989;','Property Under Contract',d.pa,b,d);
+    }
+  },
+  co:{lbl:'&#10024; Cash Offer',sub:'Priority cash offer — no financing contingency',c:'#1f5c8a',
+    flds:[
+      {s:'Property & Offer',f:[
+        {id:'pa',l:'Property Address',ph:'123 Main St, Atlanta, GA'},
+        {id:'op',l:'Offer Price',ph:'$300,000'},
+        {id:'od',l:'Offer Date',tp:'date'},
+        {id:'oe',l:'Offer Expiration',tp:'datetime-local'},
+        {id:'days',l:'Closing in (days)',ph:'30'},
+      ]},
+      {s:'Parties',f:[
+        {id:'la',l:'Listing Agent',ph:'John Smith'},
+        {id:'at',l:'Attorney / Firm',ph:'ABC Law Firm'},
+      ]},
+      {s:'Key Dates',f:[
+        {id:'em',l:'Earnest Money',ph:'$5,000'},
+        {id:'ed',l:'Earnest Money Due Date',tp:'date'},
+        {id:'cd',l:'Closing Date',tp:'date'},
+        {id:'dd',l:'Due Diligence',tp:'date'},
+      ]},
+    ],
+    gen:function(d){
+      var rows=[];
+      if(d.op)   rows.push(dr(this.c,'&#128176; Offer Price','<strong>'+d.op+'</strong>','#f7f9fb'));
+      if(d.days) rows.push(dr(this.c,'&#128197; Closing Timeline',d.days+' days','#edf1f6'));
+      if(d.oe)   rows.push(dr(this.c,'&#9888; Expires','<strong style="color:#c0392b;">'+fdt(d.oe)+'</strong>','#ffeaea'));
+      var b='<p style="margin:0 0 14px;font-size:15px;font-family:Arial,sans-serif;">We are pleased to submit a formal <strong>cash offer</strong> for <strong>'+(d.pa||'[Property Address]')+'</strong>. Full cash payment &mdash; <strong>no financing contingency</strong>.</p>'+
+        (d.oe?alrt('#fff3e0','#ffcc80','&#9888;&#65039; <strong>Offer expires: '+fdt(d.oe)+'</strong> &mdash; Please respond before this deadline.'):'')+
+        sec(this.c,'Offer Details &#128176;')+dt(this.c,rows)+
+        (d.la?party(this.c,'Listing Agent',d.la,['Review the cash offer.','Respond by '+(d.oe?fdt(d.oe):'[Expiration Date]')+'.','Confirm receipt of this offer.']):'')+
+        (d.at?party(this.c,'Attorney',d.at,['Prepare to open escrow upon acceptance.']):'')+
+        alrt('#fff8e1','#ffd54f','&#11088; <strong>Priority Cash Buyer</strong> &mdash; Ready to close quickly with no financing contingency.');
+      return email(this.c,'&#10024;','Cash Offer Submitted',d.pa,b,d);
+    }
+  },
+  of:{lbl:'&#128232; Offer Submitted',sub:'Standard financed offer notification',c:'#2d6a9f',
+    flds:[
+      {s:'Property & Offer',f:[
+        {id:'pa',l:'Property Address',ph:'123 Main St, Atlanta, GA'},
+        {id:'op',l:'Offer Price',ph:'$340,000'},
+        {id:'ft2',l:'Financing Type',ph:'Conventional / FHA / VA'},
+        {id:'oe',l:'Offer Expiration',tp:'datetime-local'},
+      ]},
+      {s:'Parties',f:[
+        {id:'la',l:'Listing Agent',ph:'John Smith'},
+        {id:'at',l:'Attorney / Firm',ph:'ABC Law Firm'},
+        {id:'lo',l:'Loan Officer',ph:'Jane Doe'},
+      ]},
+      {s:'Key Dates',f:[
+        {id:'em',l:'Earnest Money',ph:'$5,000'},
+        {id:'ed',l:'Earnest Money Due Date',tp:'date'},
+        {id:'cd',l:'Closing Date',tp:'date'},
+        {id:'dd',l:'Due Diligence',tp:'date'},
+        {id:'fd2',l:'Financing Contingency',tp:'date'},
+      ]},
+    ],
+    gen:function(d){
+      var b='<p style="margin:0 0 14px;font-size:15px;font-family:Arial,sans-serif;">A <strong>'+(d.ft2||'financed')+' offer</strong> has been submitted for <strong>'+(d.pa||'[Property Address]')+'</strong>'+(d.op?' at <strong>'+d.op+'</strong>':'')+'. Please review and respond.</p>'+
+        (d.oe?alrt('#fff3e0','#ffcc80','&#9200; <strong>Offer expires: '+fdt(d.oe)+'</strong>'):'')+
+        (d.la?party(this.c,'Listing Agent',d.la,['Acknowledge receipt of the offer.','Advise on the seller\'s response timeline.','Respond before offer expiration.']):'')+
+        (d.at?party(this.c,'Attorney',d.at,['Prepare to open escrow upon acceptance.']):'')+
+        (d.lo?party(this.c,'Loan Officer',d.lo,['Confirm pre-approval letter is current.','Prepare to order appraisal upon acceptance.']):'');
+      return email(this.c,'&#128232;','Offer Submitted',d.pa,b,d);
+    }
+  },
+  ins:{lbl:'&#128269; Inspection Notice',sub:'Schedule and confirm home inspection',c:'#2e6b45',
+    flds:[
+      {s:'Property',f:[
+        {id:'pa',l:'Property Address',ph:'123 Main St, Atlanta, GA'},
+        {id:'la',l:'Listing Agent',ph:'John Smith'},
+      ]},
+      {s:'Inspection Details',f:[
+        {id:'idt',l:'Inspection Date & Time',tp:'datetime-local'},
+        {id:'insp',l:'Inspector / Company',ph:'ABC Inspections LLC'},
+        {id:'iph',l:'Inspector Phone',ph:'(404) 555-0100'},
+        {id:'wdo',l:'WDO/Termite?',tp:'select',opts:['Yes - same day','Yes - separate date','No']},
+        {id:'idl',l:'Inspection Contingency Deadline',tp:'date'},
+      ]},
+      {s:'Key Dates',f:[{id:'cd',l:'Closing Date',tp:'date'}]},
+    ],
+    gen:function(d){
+      var rows=[];
+      if(d.idt)  rows.push(dr(this.c,'&#128197; Date & Time','<strong>'+fdt(d.idt)+'</strong>','#f7f9fb'));
+      if(d.insp) rows.push(dr(this.c,'&#128119; Inspector',d.insp,'#edf1f6'));
+      if(d.iph)  rows.push(dr(this.c,'&#128222; Phone',d.iph,'#f7f9fb'));
+      if(d.wdo)  rows.push(dr(this.c,'&#129714; WDO/Termite',d.wdo,'#edf1f6'));
+      if(d.idl)  rows.push(dr(this.c,'&#9200; Contingency Deadline','<strong style="color:#c0392b;">'+fd(d.idl)+'</strong>','#fff3e0'));
+      if(d.cd)   rows.push(dr(this.c,'&#127968; Closing Date',fd(d.cd),'#f7f9fb'));
+      var b='<p style="margin:0 0 14px;font-size:15px;font-family:Arial,sans-serif;">The <strong>home inspection</strong> for <strong>'+(d.pa||'[Property Address]')+'</strong> has been scheduled. Please ensure property access is available.</p>'+
+        sec(this.c,'Inspection Details &#128295;')+dt(this.c,rows)+
+        (d.la?party(this.c,'Listing Agent',d.la,['Ensure property access on the scheduled date and time.','Provide CBS code / lockbox access.','Allow approximately 3 hours for the inspection.']):'');
+      return email(this.c,'&#128269;','Home Inspection Notice',d.pa,b,null);
+    }
+  },
+  am:{lbl:'&#128295; Amendment - Repairs',sub:"Seller agrees to buyer's repair requests",c:'#7b3f00',
+    flds:[
+      {s:'Property & Recipient',f:[
+        {id:'pa',l:'Property Address',ph:'123 Main St, Atlanta, GA'},
+        {id:'rec',l:'Recipient',ph:'All / John Smith'},
+        {id:'la',l:'Listing Agent',ph:'John Smith'},
+        {id:'at',l:'Attorney / Firm',ph:'ABC Law Firm'},
+      ]},
+      {s:'Repair Items',f:[{id:'_r',tp:'repairs'}]},
+      {s:'Key Dates',f:[
+        {id:'rdl',l:'Repair Completion Deadline',tp:'date'},
+        {id:'cd',l:'Closing Date',tp:'date'},
+      ]},
+    ],
+    gen:function(d){
+      var reps=(d._repairs||[]).filter(function(r){return r.trim();});
+      if(!reps.length) reps=['[Repair Item 1]','[Repair Item 2]'];
+      var li=reps.map(function(r){return'<li style="margin-bottom:5px;font-size:14px;font-family:Arial,sans-serif;">&#128296; '+r+'</li>';}).join('');
+      var rows=[];
+      if(d.rdl) rows.push(dr(this.c,'&#128296; Repair Deadline','<strong style="color:#c0392b;">'+fd(d.rdl)+'</strong>','#fff3e0'));
+      if(d.cd)  rows.push(dr(this.c,'&#127968; Closing Date',fd(d.cd),'#f7f9fb'));
+      var b='<p style="margin:0 0 6px;font-size:15px;font-weight:bold;font-family:Arial,sans-serif;">Dear '+(d.rec||'All')+'</p>'+
+        '<p style="margin:0 0 14px;font-size:15px;font-family:Arial,sans-serif;">The <strong>seller has agreed</strong> to complete the following repairs:</p>'+
+        box(this.c,'<ul style="margin:0;padding-left:20px;line-height:1.9;">'+li+'</ul>')+
+        '<p style="margin:0 0 14px;font-size:14px;font-family:Arial,sans-serif;">All repairs by licensed professionals <strong>no later than '+(d.rdl?fd(d.rdl):'7 days prior to closing')+'</strong>. Please <strong>acknowledge receipt</strong>.</p>'+
+        (d.la?party(this.c,'Listing Agent',d.la,['Confirm all repair contractors are scheduled.','Provide receipts and documentation upon completion.','Ensure repairs done before final walkthrough.']):'')+
+        (d.at?party(this.c,'Attorney',d.at,['Update file with this signed amendment.','Note the repair completion deadline.']):'')+
+        (rows.length?sec(this.c,'Key Dates &#128197;')+dt(this.c,rows):'');
+      return email(this.c,'&#128295;','Amendment - Seller Agrees to Repairs',d.pa,b,null);
+    }
+  },
+  ap:{lbl:'&#128202; Appraisal Notice',sub:'Appraisal ordered — notify all parties',c:'#5b3ea6',
+    flds:[
+      {s:'Property',f:[
+        {id:'pa',l:'Property Address',ph:'123 Main St, Atlanta, GA'},
+        {id:'la',l:'Listing Agent',ph:'John Smith'},
+        {id:'lo',l:'Loan Officer',ph:'Jane Doe'},
+        {id:'at',l:'Attorney / Firm',ph:'ABC Law Firm'},
+      ]},
+      {s:'Appraisal Details',f:[
+        {id:'amc',l:'Appraiser / AMC',ph:'XYZ Appraisal Management'},
+        {id:'asd',l:'Appraisal Scheduled Date',tp:'date'},
+        {id:'ad',l:'Appraisal Contingency Deadline',tp:'date'},
+      ]},
+      {s:'Key Dates',f:[
+        {id:'pp',l:'Purchase Price',ph:'$350,000'},
+        {id:'cd',l:'Closing Date',tp:'date'},
+      ]},
+    ],
+    gen:function(d){
+      var rows=[];
+      if(d.amc) rows.push(dr(this.c,'&#127962; AMC / Appraiser',d.amc,'#f7f9fb'));
+      if(d.asd) rows.push(dr(this.c,'&#128197; Scheduled Date','<strong>'+fd(d.asd)+'</strong>','#edf1f6'));
+      if(d.ad)  rows.push(dr(this.c,'&#9200; Contingency Deadline','<strong style="color:#c0392b;">'+fd(d.ad)+'</strong>','#fff3e0'));
+      if(d.pp)  rows.push(dr(this.c,'&#128176; Purchase Price',d.pp,'#f7f9fb'));
+      if(d.cd)  rows.push(dr(this.c,'&#127968; Closing Date',fd(d.cd),'#edf1f6'));
+      var b='<p style="margin:0 0 14px;font-size:15px;font-family:Arial,sans-serif;">The <strong>appraisal</strong> for <strong>'+(d.pa||'[Property Address]')+'</strong> has been ordered. Cooperation from all parties is appreciated.</p>'+
+        sec(this.c,'Appraisal Details')+dt(this.c,rows)+
+        (d.la?party(this.c,'Listing Agent',d.la,['Ensure property access for appraiser on scheduled date.','Prepare recent comparable sales if available.']):'')+
+        (d.lo?party(this.c,'Loan Officer',d.lo,['Share appraisal results with all parties upon receipt.']):'')+
+        (d.at?party(this.c,'Attorney',d.at,['Note the appraisal contingency deadline in your file.']):'');
+      return email(this.c,'&#128202;','Appraisal Notice',d.pa,b,d);
+    }
+  },
+  ctc:{lbl:'&#127881; Clear to Close',sub:'Lender issued Clear to Close!',c:'#1a7a4a',
+    flds:[
+      {s:'Property',f:[
+        {id:'pa',l:'Property Address',ph:'123 Main St, Atlanta, GA'},
+        {id:'la',l:'Listing Agent',ph:'John Smith'},
+        {id:'at',l:'Attorney / Firm',ph:'ABC Law Firm'},
+        {id:'lo',l:'Loan Officer',ph:'Jane Doe'},
+      ]},
+      {s:'Closing Details',f:[
+        {id:'cd',l:'Closing Date',tp:'date'},
+        {id:'ct',l:'Closing Time',tp:'time'},
+        {id:'loc',l:'Closing Location',ph:'ABC Title, 123 Main St'},
+        {id:'wa',l:'Wire / Check Amount',ph:'$XXX,XXX.XX'},
+        {id:'fw',l:'Final Walkthrough',tp:'datetime-local'},
+      ]},
+      {s:'Key Dates',f:[{id:'pp',l:'Purchase Price',ph:'$350,000'}]},
+    ],
+    gen:function(d){
+      var rows=[];
+      if(d.cd)  rows.push(dr(this.c,'&#128197; Closing Date','<strong>'+fd(d.cd)+'</strong>','#f7f9fb'));
+      if(d.ct)  rows.push(dr(this.c,'&#128336; Closing Time','<strong>'+d.ct+'</strong>','#edf1f6'));
+      if(d.loc) rows.push(dr(this.c,'&#128205; Location',d.loc,'#f7f9fb'));
+      if(d.wa)  rows.push(dr(this.c,'&#128184; Wire Amount','<strong style="color:#1a7a4a;">'+d.wa+'</strong>','#e8f5ee'));
+      if(d.fw)  rows.push(dr(this.c,'&#128694; Final Walkthrough',fdt(d.fw),'#f7f9fb'));
+      if(d.pp)  rows.push(dr(this.c,'&#128176; Purchase Price',d.pp,'#edf1f6'));
+      var b=alrt('#e8f5ee','#a8dfc0','&#127881; <strong>Excellent news!</strong> The lender has issued a <strong>Clear to Close</strong> for <strong>'+(d.pa||'[Property Address]')+'</strong>. We are on track!')+
+        sec(this.c,'Closing Details &#127968;')+dt(this.c,rows)+
+        (d.la?party(this.c,'Listing Agent',d.la,['Confirm all agreed repairs are completed.','Schedule final walkthrough'+(d.fw?' for '+fdt(d.fw):'')+'.','Ensure all personal property in contract remains.']):'')+
+        (d.at?party(this.c,'Attorney',d.at,['Prepare and send final Closing Disclosure (CD).','Confirm wiring instructions with buyer.','Have all closing documents ready.']):'')+
+        (d.lo?party(this.c,'Loan Officer',d.lo,['Forward final loan package to closing attorney.','Confirm funding timeline for closing day.']):'');
+      return email(this.c,'&#127881;','Clear to Close!',d.pa,b,d);
+    }
+  },
+  fw:{lbl:'&#128694; Final Walkthrough',sub:'Pre-closing property verification notice',c:'#b45309',
+    flds:[
+      {s:'Property',f:[
+        {id:'pa',l:'Property Address',ph:'123 Main St, Atlanta, GA'},
+        {id:'la',l:'Listing Agent',ph:'John Smith'},
+        {id:'at',l:'Attorney / Firm',ph:'ABC Law Firm'},
+      ]},
+      {s:'Walkthrough Details',f:[
+        {id:'wdt',l:'Walkthrough Date & Time',tp:'datetime-local'},
+        {id:'cd',l:'Closing Date',tp:'date'},
+        {id:'ct',l:'Closing Time',tp:'time'},
+      ]},
+    ],
+    gen:function(d){
+      var rows=[];
+      if(d.wdt) rows.push(dr(this.c,'&#128197; Date & Time','<strong>'+fdt(d.wdt)+'</strong>','#f7f9fb'));
+      if(d.cd)  rows.push(dr(this.c,'&#127968; Closing Date',fd(d.cd)+(d.ct?' at <strong>'+d.ct+'</strong>':''),'#edf1f6'));
+      var b='<p style="margin:0 0 14px;font-size:15px;font-family:Arial,sans-serif;">The <strong>final walkthrough</strong> for <strong>'+(d.pa||'[Property Address]')+'</strong> is scheduled'+(d.wdt?' for <strong>'+fdt(d.wdt)+'</strong>':'')+'.</p>'+
+        dt(this.c,rows)+
+        sec(this.c,'Walkthrough Checklist &#9989;')+
+        box(this.c,'<ul style="margin:0;padding-left:20px;line-height:1.9;">'+
+          '<li style="margin-bottom:5px;font-size:14px;font-family:Arial,sans-serif;">&#9989; All agreed repairs completed</li>'+
+          '<li style="margin-bottom:5px;font-size:14px;font-family:Arial,sans-serif;">&#9989; All seller belongings removed</li>'+
+          '<li style="margin-bottom:5px;font-size:14px;font-family:Arial,sans-serif;">&#9989; All appliances present and working</li>'+
+          '<li style="margin-bottom:5px;font-size:14px;font-family:Arial,sans-serif;">&#9989; No new damage since inspection</li>'+
+          '<li style="margin-bottom:5px;font-size:14px;font-family:Arial,sans-serif;">&#9989; Keys and access codes available</li></ul>')+
+        (d.la?party(this.c,'Listing Agent',d.la,['Ensure property is in agreed condition.','Confirm access for buyer and agent.']):'')+
+        (d.at?party(this.c,'Attorney',d.at,['Closing on schedule. Please have all documents ready.']):'');
+      return email(this.c,'&#128694;','Final Walkthrough Notice',d.pa,b,null);
+    }
+  },
+  cl:{lbl:'&#127969; Closing Confirmed',sub:'Closing day — congratulations!',c:'#1f3b57',
+    flds:[
+      {s:'Property',f:[
+        {id:'pa',l:'Property Address',ph:'123 Main St, Atlanta, GA'},
+        {id:'la',l:'Listing Agent',ph:'John Smith'},
+        {id:'at',l:'Attorney / Firm',ph:'ABC Law Firm'},
+        {id:'lo',l:'Loan Officer',ph:'Jane Doe'},
+      ]},
+      {s:'Closing Details',f:[
+        {id:'cd',l:'Closing Date',tp:'date'},
+        {id:'ct',l:'Closing Time',tp:'time'},
+        {id:'loc',l:'Closing Location',ph:'ABC Title, 123 Main St'},
+        {id:'wa',l:'Wire Amount',ph:'$XXX,XXX.XX'},
+        {id:'pp',l:'Purchase Price',ph:'$350,000'},
+      ]},
+    ],
+    gen:function(d){
+      var rows=[];
+      if(d.cd)  rows.push(dr(this.c,'&#128197; Closing Date','<strong>'+fd(d.cd)+'</strong>','#f7f9fb'));
+      if(d.ct)  rows.push(dr(this.c,'&#128336; Closing Time','<strong>'+d.ct+'</strong>','#edf1f6'));
+      if(d.loc) rows.push(dr(this.c,'&#128205; Location',d.loc,'#f7f9fb'));
+      if(d.wa)  rows.push(dr(this.c,'&#128184; Wire Amount','<strong style="color:#1a7a4a;">'+d.wa+'</strong>','#e8f5ee'));
+      if(d.pp)  rows.push(dr(this.c,'&#128176; Purchase Price','<strong>'+d.pp+'</strong>','#edf1f6'));
+      var b=alrt('#e8f0f9','#b8d4f0','&#127882; We are <strong>officially closing today</strong> on <strong>'+(d.pa||'[Property Address]')+'</strong>! &#127881;')+
+        sec(this.c,'Closing Details &#128197;')+dt(this.c,rows)+
+        (d.la?party(this.c,'Listing Agent',d.la,['Have keys, garage openers, and access codes ready.','Confirm all final contract items addressed.']):'')+
+        (d.at?party(this.c,'Attorney',d.at,['Have all documents prepared for signing.','Confirm loan funds are released.']):'')+
+        (d.lo?party(this.c,'Loan Officer',d.lo,['Confirm loan funds released on time.','Thank you for your work on this file! &#128591;']):'');
+      return email(this.c,'&#127969;','Closing Day Confirmation',d.pa,b,d);
+    }
+  },
+  ut:{lbl:'&#9889; Utility Services',sub:'Request utility info from seller before closing',c:'#0c5e8a',
+    flds:[
+      {s:'Property',f:[
+        {id:'pa',l:'Property Address',ph:'123 Main St, Atlanta, GA'},
+        {id:'sn',l:'Seller Name',ph:'Mr./Mrs. [Seller]'},
+        {id:'la',l:'Listing Agent',ph:'John Smith'},
+        {id:'at',l:'Attorney / Firm',ph:'ABC Law Firm'},
+      ]},
+      {s:'Known Providers (optional)',f:[
+        {id:'uel',l:'Electric Provider',ph:'Georgia Power / FPL'},
+        {id:'ugs',l:'Gas Provider',ph:'Atlanta Gas Light'},
+        {id:'uwt',l:'Water / Sewer',ph:'City of Atlanta'},
+        {id:'utr',l:'Trash / Recycling',ph:'City service'},
+        {id:'uit',l:'Internet / Cable',ph:'Comcast / AT&T'},
+        {id:'uha',l:'HOA (if any)',ph:'HOA Name / N/A'},
+      ]},
+      {s:'Key Dates',f:[
+        {id:'cd',l:'Closing Date',tp:'date'},
+        {id:'rd',l:'Response Needed By',tp:'date'},
+      ]},
+    ],
+    gen:function(d){
+      var c=this.c;
+      function ur(icon,lbl,val,bg){
+        return '<tr>'+
+          '<td bgcolor="'+bg+'" style="padding:8px 12px;border-bottom:1px solid #e0e4ea;font-size:13px;font-family:Arial,sans-serif;background-color:'+bg+';">'+icon+' '+lbl+'</td>'+
+          '<td bgcolor="'+bg+'" style="padding:8px 12px;border-bottom:1px solid #e0e4ea;font-size:13px;font-family:Arial,sans-serif;color:#555555;background-color:'+bg+';">'+(val||'___________')+'</td>'+
+          '<td bgcolor="'+bg+'" style="padding:8px 12px;border-bottom:1px solid #e0e4ea;font-size:13px;font-family:Arial,sans-serif;color:#999999;background-color:'+bg+';">___________</td>'+
+          '<td bgcolor="'+bg+'" style="padding:8px 12px;border-bottom:1px solid #e0e4ea;font-size:13px;font-family:Arial,sans-serif;color:#999999;background-color:'+bg+';">___________</td></tr>';
+      }
+      var b='<p style="margin:0 0 6px;font-size:15px;font-weight:bold;font-family:Arial,sans-serif;">Dear '+(d.sn||'Seller')+' / '+(d.la||'Listing Agent')+'</p>'+
+        '<p style="margin:0 0 14px;font-size:15px;font-family:Arial,sans-serif;">As we approach closing'+(d.cd?' on <strong>'+fd(d.cd)+'</strong>':'')+' for <strong>'+(d.pa||'[Property Address]')+'</strong>, we request the <strong>utility account information</strong> for timely service transfers.</p>'+
+        (d.rd?alrt('#fff3e0','#ffcc80','&#9200; <strong>Please respond by: '+fd(d.rd)+'</strong>'):'')+
+        sec(c,'Utility Information Requested &#9889;')+
+        '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="border:1px solid #dddddd;border-radius:6px;overflow:hidden;margin-bottom:12px;">'+
+        '<tr><td colspan="4" bgcolor="'+c+'" style="background-color:'+c+';">'+
+        '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">'+
+        '<tr>'+
+        '<th style="padding:8px 12px;text-align:left;font-size:12px;color:#ffffff;font-family:Arial,sans-serif;font-weight:bold;width:22%;">Service</th>'+
+        '<th style="padding:8px 12px;text-align:left;font-size:12px;color:#ffffff;font-family:Arial,sans-serif;font-weight:bold;width:26%;">Provider</th>'+
+        '<th style="padding:8px 12px;text-align:left;font-size:12px;color:#ffffff;font-family:Arial,sans-serif;font-weight:bold;width:26%;">Account #</th>'+
+        '<th style="padding:8px 12px;text-align:left;font-size:12px;color:#ffffff;font-family:Arial,sans-serif;font-weight:bold;width:26%;">Phone #</th>'+
+        '</tr></table></td></tr>'+
+        ur('&#9889;','Electric',d.uel,'#f7f9fb')+
+        ur('&#128293;','Gas',d.ugs,'#edf1f6')+
+        ur('&#128167;','Water/Sewer',d.uwt,'#f7f9fb')+
+        ur('&#128465;','Trash',d.utr,'#edf1f6')+
+        ur('&#128225;','Internet',d.uit,'#f7f9fb')+
+        ((d.uha&&d.uha.toLowerCase()!=='n/a'&&d.uha.trim())?ur('&#127968;','HOA',d.uha,'#edf1f6'):'')+
+        '</table>'+
+        (d.sn?party(c,'Seller',d.sn,['Reply with the completed utility info above.','Schedule service cancellation or transfer on closing date.','Provide HOA contact if applicable.']):'')+
+        (d.la?party(c,'Listing Agent',d.la,['Assist seller in gathering this info promptly.','Confirm all accounts current at closing.']):'')+
+        alrt('#e8f0f9','#b8d4f0','&#128161; <strong>Note to Buyer:</strong> Contact each utility provider at least <strong>5-7 business days before closing</strong> to schedule service activation.');
+      return email(this.c,'&#9889;','Utility Services Request',d.pa,b,null);
+    }
+  },
+  ca:{lbl:'&#128221; Commission Agreement',sub:'Send commission agreement to all parties',c:'#1f3b57',
+    flds:[
+      {s:'Property & Parties',f:[
+        {id:'pa',l:'Property Address',ph:'123 Main St, Atlanta, GA'},
+        {id:'comm',l:'Commission Terms',ph:'3% each side / 6% total'},
+        {id:'la',l:'Listing Agent',ph:'John Smith'},
+        {id:'at',l:'Attorney / Firm',ph:'ABC Law Firm'},
+      ]},
+      {s:'Key Dates',f:[
+        {id:'cd',l:'Closing Date',tp:'date'},
+        {id:'rd',l:'Response Needed By',tp:'date'},
+      ]},
+    ],
+    gen:function(d){
+      var rows=[];
+      if(d.rd) rows.push(dr(this.c,'&#9200; Response Needed By','<strong style="color:#c0392b;">'+fd(d.rd)+'</strong>','#fff3e0'));
+      if(d.cd) rows.push(dr(this.c,'&#127968; Closing Date',fd(d.cd),'#f7f9fb'));
+      var b='<p style="margin:0 0 14px;font-size:15px;font-family:Arial,sans-serif;">Attached please find the <strong>Commission Agreement</strong> for <strong>'+(d.pa||'[Property Address]')+'</strong>. This document outlines the compensation structure for this transaction.</p>'+
+        '<p style="margin:0 0 14px;font-size:15px;font-family:Arial,sans-serif;">Kindly review at your earliest convenience. Please reply-all with any questions.</p>'+
+        sec(this.c,'Agreement Snapshot &#128196;')+
+        box(this.c,
+          '<p style="margin:0 0 8px;font-size:14px;font-family:Arial,sans-serif;">&#128206; <strong>Document:</strong> Attached PDF or e-signature link</p>'+
+          '<p style="margin:0 0 8px;font-size:14px;font-family:Arial,sans-serif;">&#129309; <strong>Parties:</strong> All brokerages participating in this sale</p>'+
+          '<p style="margin:0;font-size:14px;font-family:Arial,sans-serif;">&#128188; <strong>Commission Terms:</strong> '+(d.comm||'[Commission Details]')+'</p>'
+        )+
+        (d.la?party(this.c,'Listing Agent',d.la,['Review and sign the commission agreement.','Return signed copy at your earliest convenience.']):'')+
+        (d.at?party(this.c,'Attorney',d.at,['Note commission terms in the closing file.','Ensure proper disbursement at closing.']):'')+
+        (rows.length?sec(this.c,'Key Dates &#128197;')+dt(this.c,rows):'')+
+        alrt('#e8f0f9','#b8d4f0','&#10024; <strong>Working with a dedicated Transaction Coordinator</strong> keeps every milestone on track &mdash; we appreciate your partnership!');
+      return email(this.c,'&#128221;','Commission Agreement',d.pa,b,null);
+    }
+  }
+};
+
+// ── STATE & UI ──
+var cur='uc', lastHTML='', hist=[], rIdx=3, tmr=null;
+
+function go(key,el){
+  cur=key; rIdx=3;
+  document.querySelectorAll('.sb-lnk').forEach(function(x){x.classList.remove('on');});
+  if(el) el.classList.add('on');
+  buildForm(key);
+}
+
+function buildForm(key){
+  var t=T[key];
+  document.getElementById('ft').innerHTML=t.lbl;
+  document.getElementById('fs').textContent=t.sub;
+  var h='';
+  t.flds.forEach(function(s){
+    h+='<div class="fsec">'+s.s+'</div>';
+    s.f.forEach(function(f){
+      if(f.tp==='repairs'){
+        h+='<div id="rw"><div id="rl">';
+        for(var i=0;i<3;i++) h+=rRow(i);
+        h+='</div><button class="add-r" onclick="addR()">+ Add repair item</button></div>';
+      } else if(f.tp==='select'){
+        h+='<div class="fg"><label>'+f.l+'</label><select id="f_'+f.id+'" onchange="upd()">'+f.opts.map(function(o){return'<option>'+o+'</option>';}).join('')+'</select></div>';
+      } else {
+        h+='<div class="fg"><label>'+f.l+'</label><input type="'+(f.tp||'text')+'" id="f_'+f.id+'" placeholder="'+(f.ph||'')+'" oninput="upd()"/></div>';
+      }
+    });
+  });
+  document.getElementById('fb').innerHTML=h;
+  upd();
+}
+
+function rRow(i){return'<div class="rep-row" id="rr'+i+'"><input placeholder="Repair item '+(i+1)+'..." oninput="upd()" id="rp'+i+'"/><button class="rm-r" onclick="rmR('+i+')">&#215;</button></div>';}
+function addR(){var i=rIdx++;var w=document.getElementById('rl');if(!w)return;var d=document.createElement('div');d.className='rep-row';d.id='rr'+i;d.innerHTML='<input placeholder="Repair item '+(i+1)+'..." oninput="upd()" id="rp'+i+'"/><button class="rm-r" onclick="rmR('+i+')">&#215;</button>';w.appendChild(d);}
+function rmR(i){var el=document.getElementById('rr'+i);if(el){el.remove();upd();}}
+
+function getData(){
+  var d={};
+  document.querySelectorAll('[id^="f_"]').forEach(function(el){d[el.id.replace('f_','')]=el.value.trim();});
+  var r=[];document.querySelectorAll('[id^="rp"]').forEach(function(el){if(el.value.trim())r.push(el.value.trim());});
+  d._repairs=r;return d;
+}
+
+function upd(){
+  clearTimeout(tmr);
+  tmr=setTimeout(function(){
+    try{
+      lastHTML=T[cur].gen(getData());
+      document.getElementById('frm').srcdoc=lastHTML;
+    }catch(e){console.error('Email gen error:',e);}
+  },150);
+}
+
+function resF(){
+  var f=document.getElementById('frm');
+  try{var h=f.contentDocument&&f.contentDocument.body?f.contentDocument.body.scrollHeight:0;if(h>200)f.style.height=(h+20)+'px';}catch(e){}
+}
+
+function doDL(){
+  if(!lastHTML){upd();setTimeout(doDL,300);return;}
+  var d=getData();
+  var slug=(d.pa||'email').replace(/[^a-z0-9]/gi,'_').toLowerCase().slice(0,25);
+  var fname='TC_'+cur+'_'+slug+'.html';
+  var blob=new Blob([lastHTML],{type:'text/html'});
+  var url=URL.createObjectURL(blob);
+  var a=document.createElement('a');
+  a.href=url; a.download=fname;
+  document.body.appendChild(a); a.click();
+  setTimeout(function(){document.body.removeChild(a);URL.revokeObjectURL(url);},100);
+  toast('&#11015; Downloaded! Open file, Cmd+A, Cmd+C, paste in Outlook','gold');
+  addHist();
+}
+
+function doWin(){
+  if(!lastHTML){upd();setTimeout(doWin,300);return;}
+  var w=window.open('','_blank','width=700,height=900,scrollbars=yes');
+  w.document.open();
+  w.document.write(lastHTML);
+  w.document.close();
+  toast('&#128065; Email open &mdash; Cmd+A, Cmd+C, paste in Outlook','ok');
+  addHist();
+}
+
+function addHist(){
+  var d=getData();
+  hist.unshift({addr:d.pa||'[Address]',key:cur,ts:new Date().toLocaleTimeString()});
+  if(hist.length>5) hist.pop();
+  document.getElementById('hist').innerHTML=hist.map(function(h){
+    return '<div style="padding:5px 12px;cursor:pointer;font-size:11px;color:rgba(255,255,255,.4);display:flex;align-items:center;gap:6px;" onmouseover="this.style.background=\'rgba(255,255,255,.05)\'" onmouseout="this.style.background=\'\'" onclick="go(\''+h.key+'\',null)">'+
+      '<span style="flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">'+h.addr+'</span>'+
+      '<span style="font-size:9px;opacity:.4;">'+h.ts+'</span></div>';
+  }).join('');
+}
+
+function toast(msg,type){
+  var w=document.getElementById('tw');
+  var t=document.createElement('div');
+  t.className='tst '+(type||'');
+  t.innerHTML=msg;
+  w.appendChild(t);
+  setTimeout(function(){if(t.parentNode)t.parentNode.removeChild(t);},5000);
+}
+
+buildForm('uc');
+</script>
+</body>
+</html>
