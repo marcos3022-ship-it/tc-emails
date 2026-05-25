@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>TC Dashboard — Jenny F Mendoza Realty</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --navy:#1f3b57;--navy2:#162c42;--navy3:#0d1e2e;
+  --gold:#c9a84c;--green:#1a7a4a;--red:#c0392b;--orange:#e67e22;
+  --bg:#eef0f4;--white:#fff;--border:#dde1e8;
+  --text:#1a202c;--text2:#4a5568;--text3:#8896aa;
+}
+body{font-family:'IBM Plex Sans',Arial,sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+.nav{background:var(--navy3);padding:0 24px;display:flex;align-items:center;justify-content:space-between;height:54px;position:sticky;top:0;z-index:100;box-shadow:0 2px 8px rgba(0,0,0,.2)}
+.nav-brand{font-size:16px;font-weight:700;color:#fff;display:flex;align-items:center;gap:10px}
+.nav-brand span{font-size:10px;color:rgba(255,255,255,.35);font-weight:400;text-transform:uppercase;letter-spacing:.1em}
+.nav-tabs{display:flex;gap:4px}
+.nav-tab{padding:6px 14px;border-radius:6px;font-size:12px;font-weight:600;cursor:pointer;color:rgba(255,255,255,.5);transition:all .15s;border:none;background:none;font-family:inherit}
+.nav-tab:hover{color:#fff;background:rgba(255,255,255,.07)}
+.nav-tab.on{color:#fff;background:rgba(255,255,255,.12)}
+.nav-right{display:flex;align-items:center;gap:8px}
+.nav-btn{padding:6px 14px;border-radius:6px;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;border:none;background:var(--gold);color:#1a1a1a}
+.nav-btn:hover{background:#a8882a;color:#fff}
+.logout-btn{padding:6px 12px;border-radius:6px;font-size:11px;font-weight:600;cursor:pointer;font-family:inherit;border:1px solid rgba(255,255,255,.2);background:none;color:rgba(255,255,255,.5)}
+.logout-btn:hover{color:#fff;border-color:rgba(255,255,255,.4)}
+.page{display:none;padding:24px;max-width:1200px;margin:0 auto}
+.page.on{display:block}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:24px}
+.stat{background:var(--white);border-radius:10px;padding:16px 20px;border:1px solid var(--border);display:flex;align-items:center;gap:14px}
+.stat-icon{width:42px;height:42px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+.stat-num{font-size:24px;font-weight:700;color:var(--navy);line-height:1}
+.stat-lbl{font-size:11px;color:var(--text3);margin-top:3px;text-transform:uppercase;letter-spacing:.05em}
+.sec-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.sec-title{font-size:15px;font-weight:700;color:var(--navy)}
+.sec-sub{font-size:11px;color:var(--text3);margin-top:2px}
+.alerts{display:flex;flex-direction:column;gap:8px;margin-bottom:24px}
+.alert{background:var(--white);border-radius:8px;padding:12px 16px;border:1px solid var(--border);border-left:4px solid var(--border);display:flex;align-items:center;gap:12px;cursor:pointer}
+.alert.red{border-left-color:var(--red);background:#fff5f5}
+.alert.yellow{border-left-color:var(--orange);background:#fffbf0}
+.alert.green{border-left-color:var(--green);background:#f0faf4}
+.alert-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.alert.red .alert-dot{background:var(--red)}
+.alert.yellow .alert-dot{background:var(--orange)}
+.alert.green .alert-dot{background:var(--green)}
+.alert-info{flex:1}
+.alert-title{font-size:13px;font-weight:600;color:var(--text)}
+.alert-sub{font-size:11px;color:var(--text3);margin-top:2px}
+.alert-badge{font-size:11px;font-weight:700;padding:3px 8px;border-radius:99px;flex-shrink:0}
+.alert.red .alert-badge{background:#fdeaea;color:var(--red)}
+.alert.yellow .alert-badge{background:#fef3e0;color:var(--orange)}
+.alert.green .alert-badge{background:#e6f4ee;color:var(--green)}
+.tx-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:16px}
+.tx-card{background:var(--white);border-radius:10px;border:1px solid var(--border);overflow:hidden;transition:box-shadow .15s}
+.tx-card:hover{box-shadow:0 4px 16px rgba(0,0,0,.08)}
+.tx-card-hdr{padding:14px 16px 10px;border-bottom:1px solid var(--border);display:flex;align-items:flex-start;justify-content:space-between;gap:8px}
+.tx-addr{font-size:14px;font-weight:700;color:var(--navy);line-height:1.3}
+.tx-sub{font-size:11px;color:var(--text3);margin-top:3px}
+.tx-status{font-size:10px;font-weight:700;padding:3px 8px;border-radius:99px;flex-shrink:0;text-transform:uppercase}
+.st-active{background:#e6f4ee;color:var(--green)}
+.st-pending{background:#fef3e0;color:var(--orange)}
+.st-closing{background:#e8f0f9;color:var(--navy)}
+.tx-dates{padding:10px 16px;display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.tx-date{display:flex;flex-direction:column;gap:2px}
+.tx-date-lbl{font-size:9px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.06em}
+.tx-date-val{font-size:12px;font-weight:600;color:var(--text)}
+.tx-date-val.urgent{color:var(--red)}
+.tx-date-val.warn{color:var(--orange)}
+.tx-prog{padding:0 16px 10px}
+.tx-prog-lbl{display:flex;justify-content:space-between;font-size:10px;color:var(--text3);margin-bottom:4px}
+.tx-prog-bar{height:5px;background:#e8eaee;border-radius:99px;overflow:hidden}
+.tx-prog-fill{height:100%;background:var(--navy);border-radius:99px}
+.tx-actions{padding:8px 16px 12px;display:flex;gap:6px}
+.tx-btn{flex:1;padding:6px 8px;border-radius:6px;border:1px solid var(--border);background:none;font-family:inherit;font-size:11px;font-weight:600;cursor:pointer;color:var(--text2)}
+.tx-btn:hover{background:var(--navy);color:#fff;border-color:var(--navy)}
+.tx-btn.primary{background:var(--navy);color:#fff;border-color:var(--navy)}
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:200;display:none;align-items:center;justify-content:center;padding:20px}
+.overlay.on{display:flex}
+.modal{background:var(--white);border-radius:12px;width:100%;max-width:580px;max-height:90vh;overflow-y:auto;box-shadow:0 8px 40px rgba(0,0,0,.2)}
+.modal-hdr{padding:18px 20px 14px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;background:#fff;z-index:1}
+.modal-title{font-size:16px;font-weight:700;color:var(--navy)}
+.modal-close{background:none;border:none;font-size:20px;cursor:pointer;color:var(--text3);padding:0 4px;line-height:1}
+.modal-body{padding:18px 20px}
+.fg{margin-bottom:12px}
+.fg label{display:block;font-size:10px;font-weight:700;color:var(--text2);margin-bottom:3px;text-transform:uppercase;letter-spacing:.04em}
+.fg input,.fg select{width:100%;padding:8px 10px;border:1px solid #b0b8c8;border-radius:7px;font-family:inherit;font-size:13px;color:var(--text);outline:none;background:#fff}
+.fg input:focus,.fg select:focus{border-color:var(--navy)}
+.fg2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.fg2 .fg{margin-bottom:0}
+.fg-sec{font-size:10px;font-weight:700;color:var(--navy);text-transform:uppercase;letter-spacing:.07em;padding:10px 0 4px;border-bottom:1px solid var(--border);margin:8px 0 10px}
+.modal-foot{padding:14px 20px;border-top:1px solid var(--border);display:flex;gap:8px;justify-content:flex-end}
+.btn{padding:8px 16px;border-radius:7px;border:none;cursor:pointer;font-family:inherit;font-size:13px;font-weight:600}
+.b-navy{background:var(--navy);color:#fff}.b-navy:hover{background:var(--navy2)}
+.b-red{background:var(--red);color:#fff}
+.b-out{background:none;border:1px solid var(--border);color:var(--text2)}
+.cl-item{display:flex;align-items:flex-start;gap:10px;padding:10px 14px;border-bottom:1px solid var(--border);cursor:pointer}
+.cl-item:hover{background:#f7f9fb}
+.cl-item:last-child{border-bottom:none}
+.cl-cb{width:18px;height:18px;border:2px solid var(--border);border-radius:4px;flex-shrink:0;margin-top:1px;display:flex;align-items:center;justify-content:center}
+.cl-item.done .cl-cb{background:var(--green);border-color:var(--green);color:#fff;font-size:11px;font-weight:700}
+.cl-item.done .cl-text{text-decoration:line-through;color:var(--text3)}
+.cl-text{font-size:13px;color:var(--text);line-height:1.4}
+.cl-cat{font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;padding:8px 14px 4px;background:#f7f9fb}
+.cl-prog{padding:14px 16px;background:#f7f9fb;border-bottom:1px solid var(--border)}
+.cl-prog-top{display:flex;justify-content:space-between;font-size:12px;font-weight:600;color:var(--navy);margin-bottom:6px}
+.cl-bar{height:6px;background:#e0e4ea;border-radius:99px;overflow:hidden}
+.cl-fill{height:100%;background:var(--green);border-radius:99px}
+.empty{text-align:center;padding:48px 20px;color:var(--text3)}
+.empty-icon{font-size:40px;margin-bottom:12px}
+.empty h3{font-size:15px;font-weight:600;color:var(--text2);margin-bottom:6px}
+.tw{position:fixed;bottom:20px;right:20px;z-index:999;display:flex;flex-direction:column;gap:6px}
+.tst{background:var(--navy);color:#fff;padding:10px 14px;border-radius:8px;font-size:13px;font-weight:500;animation:tIn .15s ease;box-shadow:0 3px 12px rgba(0,0,0,.2)}
+.tst.ok{background:var(--green)}.tst.err{background:var(--red)}
+@keyframes tIn{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="login-screen" style="position:fixed;inset:0;background:#0d1e2e;z-index:9999;display:flex;align-items:center;justify-content:center;">
+  <div style="background:#fff;border-radius:14px;padding:40px 36px;width:100%;max-width:380px;box-shadow:0 20px 60px rgba(0,0,0,.4);text-align:center;">
+    <div style="font-size:40px;margin-bottom:8px;">🏠</div>
+    <div style="font-size:20px;font-weight:700;color:#1f3b57;margin-bottom:4px;">TC Dashboard</div>
+    <div style="font-size:12px;color:#8896aa;margin-bottom:28px;">Jenny F Mendoza Realty Group</div>
+    <div style="margin-bottom:14px;text-align:left;">
+      <label style="display:block;font-size:10px;font-weight:700;color:#4a5568;margin-bottom:4px;text-transform:uppercase;letter-spacing:.05em;">Username</label>
+      <input id="login-user" type="text" placeholder="Enter username" style="width:100%;padding:10px 12px;border:1px solid #b0b8c8;border-radius:8px;font-family:inherit;font-size:14px;outline:none;" onkeydown="if(event.key==='Enter')doLogin()"/>
+    </div>
+    <div style="margin-bottom:20px;text-align:left;">
+      <label style="display:block;font-size:10px;font-weight:700;color:#4a5568;margin-bottom:4px;text-transform:uppercase;letter-spacing:.05em;">Password</label>
+      <input id="login-pass" type="password" placeholder="Enter password" style="width:100%;padding:10px 12px;border:1px solid #b0b8c8;border-radius:8px;font-family:inherit;font-size:14px;outline:none;" onkeydown="if(event.key==='Enter')doLogin()"/>
+    </div>
+    <div id="login-err" style="color:#c0392b;font-size:12px;margin-bottom:12px;min-height:18px;"></div>
+    <button onclick="doLogin()" style="width:100%;padding:12px;background:#1f3b57;color:#fff;border:none;border-radius:8px;font-family:inherit;font-size:14px;font-weight:700;cursor:pointer;">Sign In</button>
+    <div style="margin-top:16px;font-size:11px;color:#8896aa;">TC Dashboard v2.0</div>
+  </div>
+</div>
+
+<nav class="nav">
+  <div class="nav-brand">&#127968; TC Dashboard <span>Jenny F Mendoza Realty</span></div>
+  <div class="nav-tabs">
+    <button class="nav-tab on" onclick="showPage('dashboard',this)">&#128202; Dashboard</button>
+    <button class="nav-tab" onclick="showPage('transactions',this)">&#128193; Transactions</button>
+    <button class="nav-tab" onclick="syncCalendar()">&#128197; Sync Calendar</button>
+  </div>
+  <div class="nav-right">
+    <span id="cal-status" style="font-size:11px;color:rgba(255,255,255,.4);"></span>
+    <button class="nav-btn" onclick="openAddModal()">+ New Transaction</button>
+    <button class="logout-btn" onclick="doLogout()">Logout</button>
+  </div>
+</nav>
+
+<div class="page on" id="page-dashboard">
+  <div class="stats" id="stats-row"></div>
+  <div class="sec-hdr">
+    <div><div class="sec-title">&#128680; Upcoming Deadlines</div><div class="sec-sub">Next 7 days</div></div>
+  </div>
+  <div class="alerts" id="alerts-list"></div>
+  <div class="sec-hdr">
+    <div><div class="sec-title">&#128193; Active Transactions</div></div>
+    <button class="nav-btn" onclick="openAddModal()">+ Add</button>
+  </div>
+  <div class="tx-grid" id="dashboard-cards"></div>
+</div>
+
+<div class="page" id="page-transactions">
+  <div class="sec-hdr">
+    <div><div class="sec-title">&#128193; All Transactions</div><div class="sec-sub" id="tx-count"></div></div>
+    <button class="nav-btn" onclick="openAddModal()">+ New Transaction</button>
+  </div>
+  <div class="tx-grid" id="all-cards"></div>
+</div>
+
+<!-- ADD/EDIT MODAL -->
+<div class="overlay" id="add-modal">
+  <div class="modal">
+    <div class="modal-hdr">
+      <div class="modal-title" id="modal-title">New Transaction</div>
+      <button class="modal-close" onclick="closeModal('add-modal')">&#215;</button>
+    </div>
+    <div class="modal-body">
+      <div class="fg-sec">Property & Parties</div>
+      <div class="fg"><label>Property Address *</label><input id="f-addr" placeholder="123 Main St, Atlanta, GA 30301"/></div>
+      <div class="fg2">
+        <div class="fg"><label>Purchase Price</label><input id="f-price" placeholder="$350,000"/></div>
+        <div class="fg"><label>TC Side</label>
+          <select id="f-side">
+            <option value="buyer">&#127968; Buyer Side</option>
+            <option value="seller">&#127991;&#65039; Seller Side</option>
+          </select>
+        </div>
+      </div>
+      <div class="fg2">
+        <div class="fg"><label>Status</label>
+          <select id="f-status">
+            <option value="active">Active</option>
+            <option value="pending">Pending</option>
+            <option value="closing">Closing Soon</option>
+            <option value="closed">Closed</option>
+          </select>
+        </div>
+        <div class="fg"><label>Earnest Money</label><input id="f-em" placeholder="$5,000"/></div>
+      </div>
+      <div class="fg2">
+        <div class="fg"><label>Listing Agent</label><input id="f-la" placeholder="John Smith"/></div>
+        <div class="fg"><label>Loan Officer</label><input id="f-lo" placeholder="Jane Doe"/></div>
+      </div>
+      <div class="fg"><label>Attorney / Firm</label><input id="f-at" placeholder="ABC Law Firm"/></div>
+      <div class="fg-sec">Key Dates</div>
+      <div class="fg2">
+        <div class="fg"><label>Binding Agreement</label><input type="date" id="f-bd"/></div>
+        <div class="fg"><label>Earnest Money Due</label><input type="date" id="f-ed"/></div>
+      </div>
+      <div class="fg2">
+        <div class="fg"><label>Due Diligence</label><input type="date" id="f-dd"/></div>
+        <div class="fg"><label>Financing Contingency</label><input type="date" id="f-fd"/></div>
+      </div>
+      <div class="fg2">
+        <div class="fg"><label>Appraisal Contingency</label><input type="date" id="f-ad"/></div>
+        <div class="fg"><label>Closing Date *</label><input type="date" id="f-cd"/></div>
+      </div>
+      <div class="fg"><label>Notes</label><input id="f-notes" placeholder="Any additional notes..."/></div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn b-out" onclick="closeModal('add-modal')">Cancel</button>
+      <button class="btn b-red" id="delete-btn" onclick="deleteTransaction()" style="display:none">Delete</button>
+      <button class="btn b-navy" onclick="saveTransaction()">Save Transaction</button>
+    </div>
+  </div>
+</div>
+
+<!-- CHECKLIST MODAL -->
+<div class="overlay" id="cl-modal">
+  <div class="modal">
+    <div class="modal-hdr">
+      <div>
+        <div class="modal-title" id="cl-title">Checklist</div>
+        <div style="font-size:11px;color:var(--text3);margin-top:2px" id="cl-addr"></div>
+      </div>
+      <button class="modal-close" onclick="closeModal('cl-modal')">&#215;</button>
+    </div>
+    <div class="cl-prog">
+      <div class="cl-prog-top"><span>Progress</span><span id="cl-pct">0%</span></div>
+      <div class="cl-bar"><div class="cl-fill" id="cl-fill" style="width:0%"></div></div>
+    </div>
+    <div id="cl-body"></div>
+  </div>
+</div>
+
+<div class="tw" id="tw"></div>
+
+<script>
+// ── AUTH ──
+var CREDS = {user:'Marcos3022', pass:'Anaramona43'};
+
+function doLogin(){
+  var u = document.getElementById('login-user').value.trim();
+  var p = document.getElementById('login-pass').value;
+  var err = document.getElementById('login-err');
+  err.textContent = '';
+  if(!u || !p){ err.textContent='Please enter username and password.'; return; }
+  if(u === CREDS.user && p === CREDS.pass){
+    sessionStorage.setItem('tc_auth','1');
+    document.getElementById('login-screen').style.display='none';
+    toast('Welcome back, Marcos!','ok');
+  } else {
+    err.textContent = 'Invalid username or password.';
+    document.getElementById('login-pass').value='';
+  }
+}
+
+function doLogout(){
+  sessionStorage.removeItem('tc_auth');
+  document.getElementById('login-screen').style.display='flex';
+  document.getElementById('login-user').value='';
+  document.getElementById('login-pass').value='';
+}
+
+function checkSession(){
+  if(sessionStorage.getItem('tc_auth')==='1'){
+    document.getElementById('login-screen').style.display='none';
+  }
+}
+
+// ── CHECKLISTS ──
+var CL_BUYER = [
+  {cat:'Under Contract — Buyer Side',items:[
+    'Send Under Contract email to all parties',
+    'Collect CBS code / lockbox access from listing agent',
+    'Request Instructions to Closing Attorney (ITCA)',
+    'F511 form sent to attorney for signature',
+    'Earnest money wiring instructions sent to buyer',
+    'Confirm earnest money receipt',
+  ]},
+  {cat:'Inspection',items:[
+    'Schedule home inspection',
+    'Notify listing agent of inspection date/time',
+    'WDO/Termite inspection ordered',
+    'Inspection report received',
+    'Review inspection items with buyer agent',
+    'Amendment for repairs submitted (if applicable)',
+    'Inspection contingency resolved',
+  ]},
+  {cat:'Financing & Appraisal',items:[
+    'Appraisal ordered — notify all parties',
+    'Appraisal report received and reviewed',
+    'Appraisal contingency resolved',
+    'Financing contingency resolved',
+    'Clear to Close received from lender',
+  ]},
+  {cat:'Closing Prep',items:[
+    'Final walkthrough scheduled',
+    'Final walkthrough completed',
+    'Closing Disclosure (CD) received and reviewed',
+    'Wire amount confirmed with buyer',
+    'Utility services request sent to seller',
+    'Closing confirmation email sent to all parties',
+  ]},
+  {cat:'Closed',items:[
+    'Confirm closing completed',
+    'All documents filed',
+    'Commission confirmed',
+    'File archived',
+  ]},
+];
+
+var CL_SELLER = [
+  {cat:'Under Contract — Seller Side',items:[
+    'Review contract terms and dates with seller',
+    'Verify purchase price and all contingencies',
+    'Confirm binding agreement date',
+    'Send Under Contract notification to all parties',
+    'Verify earnest money deposit received',
+    'Confirm F511 / ITCA sent to attorney',
+    'Provide CBS code and access instructions to buyer agent',
+  ]},
+  {cat:'Negotiation & Inspection',items:[
+    'Coordinate property access for buyer inspection',
+    'Receive and review inspection report',
+    'Review buyer repair requests / amendment',
+    'Negotiate repair items with listing agent',
+    'Document all agreed repair terms',
+    'Confirm amendment signed by all parties',
+    'Coordinate contractors for agreed repairs',
+    'Verify repairs completed before walkthrough',
+  ]},
+  {cat:'Appraisal & Financing',items:[
+    'Confirm appraisal appointment scheduled',
+    'Coordinate property access for appraiser',
+    'Provide comparable sales to appraiser if needed',
+    'Review appraisal results with seller',
+    'Negotiate if appraisal comes in below price',
+    'Confirm all financing contingencies resolved',
+  ]},
+  {cat:'HUD & Closing Prep',items:[
+    'Request preliminary HUD/Settlement Statement from attorney',
+    'Review HUD — verify seller credits and debits',
+    'Verify commission amounts on HUD',
+    'Confirm seller proceeds are correct',
+    'Request corrections to HUD if needed',
+    'Confirm final HUD approved by seller',
+    'Final walkthrough notification sent',
+    'Confirm property cleared and ready for walkthrough',
+    'Utility services transfer coordinated',
+    'Closing confirmation email sent to all parties',
+  ]},
+  {cat:'Team Coordination',items:[
+    'Coordinate with listing agent on timeline',
+    'Update team agents on transaction status',
+    'Share key dates with all team members',
+    'Confirm commission split with team agents',
+    'All team members notified of closing',
+  ]},
+  {cat:'Closed',items:[
+    'Confirm closing completed',
+    'Verify seller proceeds wired correctly',
+    'All documents filed',
+    'Commission disbursement confirmed',
+    'Team agents commission confirmed',
+    'File archived',
+  ]},
+];
+
+function getCL(side){ return side==='seller' ? CL_SELLER : CL_BUYER; }
+
+// ── DATA ──
+function load(){ try{return JSON.parse(localStorage.getItem('tc_tx')||'[]');}catch(e){return[];} }
+function save(d){ localStorage.setItem('tc_tx',JSON.stringify(d)); }
+function genId(){ return 'tx_'+Date.now(); }
+
+// ── DATES ──
+function daysUntil(s){
+  if(!s)return null;
+  var now=new Date();now.setHours(0,0,0,0);
+  var d=new Date(s+'T12:00:00');
+  return Math.round((d-now)/86400000);
+}
+function fmtDate(s){
+  if(!s)return'&mdash;';
+  try{return new Date(s+'T12:00:00').toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});}catch(e){return s;}
+}
+function dcls(s){
+  var d=daysUntil(s);
+  if(d===null)return'';
+  if(d<=3)return'urgent';
+  if(d<=7)return'warn';
+  return'';
+}
+
+// ── PROGRESS ──
+function getProg(tx){
+  if(!tx.checklist)return 0;
+  var total=0,done=0;
+  getCL(tx.side).forEach(function(c){
+    c.items.forEach(function(item,i){
+      total++;
+      if(tx.checklist[c.cat+'_'+i])done++;
+    });
+  });
+  return total>0?Math.round(done/total*100):0;
+}
+
+// ── RENDER ──
+function render(){
+  var data=load();
+  renderStats(data);
+  renderAlerts(data);
+  renderCards(data);
+  document.getElementById('tx-count').textContent=data.length+' transaction'+(data.length!==1?'s':'');
+}
+
+function renderStats(data){
+  var active=data.filter(function(t){return t.status==='active';}).length;
+  var closing=data.filter(function(t){return t.status==='closing';}).length;
+  var urgent=0;
+  data.forEach(function(tx){
+    ['bd','ed','dd','fd','ad','cd'].forEach(function(k){
+      var d=daysUntil(tx[k]);
+      if(d!==null&&d>=0&&d<=3)urgent++;
+    });
+  });
+  document.getElementById('stats-row').innerHTML=
+    mkStat('&#127968;',data.length,'Total','#e8f0f9')+
+    mkStat('&#9989;',active,'Active','#e6f4ee')+
+    mkStat('&#128273;',closing,'Closing Soon','#fef3e0')+
+    mkStat('&#128680;',urgent,'Urgent Deadlines','#fdeaea');
+}
+
+function mkStat(icon,num,lbl,bg){
+  return '<div class="stat"><div class="stat-icon" style="background:'+bg+'">'+icon+'</div>'+
+    '<div><div class="stat-num">'+num+'</div><div class="stat-lbl">'+lbl+'</div></div></div>';
+}
+
+function renderAlerts(data){
+  var el=document.getElementById('alerts-list');
+  var labels={bd:'Binding Agreement',ed:'Earnest Money Due',dd:'Due Diligence',fd:'Financing Contingency',ad:'Appraisal Contingency',cd:'Closing Date'};
+  var alerts=[];
+  data.forEach(function(tx){
+    if(tx.status==='closed')return;
+    Object.keys(labels).forEach(function(k){
+      if(!tx[k])return;
+      var d=daysUntil(tx[k]);
+      if(d!==null&&d>=0&&d<=7) alerts.push({tx:tx,key:k,label:labels[k],days:d});
+    });
+  });
+  alerts.sort(function(a,b){return a.days-b.days;});
+  if(!alerts.length){
+    el.innerHTML='<div class="alert green"><div class="alert-dot"></div><div class="alert-info"><div class="alert-title">No urgent deadlines</div><div class="alert-sub">All deadlines are more than 7 days away</div></div><div class="alert-badge">&#10003; Clear</div></div>';
+    return;
+  }
+  el.innerHTML=alerts.map(function(a){
+    var cls=a.days<=3?'red':'yellow';
+    var badge=a.days===0?'TODAY':a.days===1?'TOMORROW':a.days+' days';
+    return '<div class="alert '+cls+'" onclick="openEditModal(\''+a.tx.id+'\')">'+
+      '<div class="alert-dot"></div>'+
+      '<div class="alert-info">'+
+        '<div class="alert-title">'+a.label+' &mdash; '+a.tx.addr+'</div>'+
+        '<div class="alert-sub">'+fmtDate(a.tx[a.key])+(a.tx.la?' &middot; Agent: '+a.tx.la:'')+'</div>'+
+      '</div>'+
+      '<div class="alert-badge">'+badge+'</div>'+
+    '</div>';
+  }).join('');
+}
+
+function txCard(tx){
+  var prog=getProg(tx);
+  var slabels={active:'Active',pending:'Pending',closing:'Closing Soon',closed:'Closed'};
+  var scls={active:'st-active',pending:'st-pending',closing:'st-closing',closed:''};
+  return '<div class="tx-card">'+
+    '<div class="tx-card-hdr">'+
+      '<div>'+
+        '<div class="tx-addr">'+tx.addr+'</div>'+
+        '<div class="tx-sub">'+(tx.side==='seller'?'&#127991;&#65039; Seller':'&#127968; Buyer')+
+          ' &nbsp;|&nbsp;'+(tx.price?' '+tx.price:'')+(tx.la?' &middot; '+tx.la:'')+'</div>'+
+      '</div>'+
+      '<div class="tx-status '+(scls[tx.status]||'')+'">'+slabels[tx.status]+'</div>'+
+    '</div>'+
+    '<div class="tx-dates">'+
+      txDate('Closing',tx.cd)+
+      txDate('Due Diligence',tx.dd)+
+      txDate('Earnest Money',tx.ed)+
+      txDate('Appraisal',tx.ad)+
+    '</div>'+
+    '<div class="tx-prog">'+
+      '<div class="tx-prog-lbl"><span>Checklist</span><span>'+prog+'%</span></div>'+
+      '<div class="tx-prog-bar"><div class="tx-prog-fill" style="width:'+prog+'%"></div></div>'+
+    '</div>'+
+    '<div class="tx-actions">'+
+      '<button class="tx-btn" onclick="openCL(\''+tx.id+'\')">&#9989; Checklist</button>'+
+      '<button class="tx-btn" onclick="openEditModal(\''+tx.id+'\')">&#9998; Edit</button>'+
+      '<button class="tx-btn primary" onclick="goEmails()">&#9993; Email</button>'+
+    '</div>'+
+  '</div>';
+}
+
+function txDate(lbl,s){
+  if(!s)return'';
+  var cls=dcls(s);
+  return '<div class="tx-date"><div class="tx-date-lbl">'+lbl+'</div><div class="tx-date-val '+cls+'">'+fmtDate(s)+'</div></div>';
+}
+
+function renderCards(data){
+  var active=data.filter(function(t){return t.status!=='closed';});
+  var dEl=document.getElementById('dashboard-cards');
+  var aEl=document.getElementById('all-cards');
+  dEl.innerHTML=active.length?active.map(txCard).join(''):'<div class="empty" style="grid-column:1/-1"><div class="empty-icon">&#128193;</div><h3>No active transactions</h3><p>Click "+ New Transaction" to get started</p></div>';
+  aEl.innerHTML=data.length?data.map(txCard).join(''):'<div class="empty" style="grid-column:1/-1"><div class="empty-icon">&#128193;</div><h3>No transactions yet</h3><p>Click "+ New Transaction" to add your first one</p></div>';
+}
+
+// ── MODALS ──
+var editingId=null;
+
+function openAddModal(){
+  editingId=null;
+  document.getElementById('modal-title').textContent='New Transaction';
+  document.getElementById('delete-btn').style.display='none';
+  ['addr','price','la','lo','at','em','notes'].forEach(function(f){
+    var el=document.getElementById('f-'+f);
+    if(el)el.value='';
+  });
+  ['bd','ed','dd','fd','ad','cd'].forEach(function(f){document.getElementById('f-'+f).value='';});
+  document.getElementById('f-status').value='active';
+  document.getElementById('f-side').value='buyer';
+  document.getElementById('add-modal').classList.add('on');
+}
+
+function openEditModal(id){
+  var data=load();
+  var tx=data.find(function(t){return t.id===id;});
+  if(!tx)return;
+  editingId=id;
+  document.getElementById('modal-title').textContent='Edit Transaction';
+  document.getElementById('delete-btn').style.display='block';
+  document.getElementById('f-addr').value=tx.addr||'';
+  document.getElementById('f-price').value=tx.price||'';
+  document.getElementById('f-la').value=tx.la||'';
+  document.getElementById('f-lo').value=tx.lo||'';
+  document.getElementById('f-at').value=tx.at||'';
+  document.getElementById('f-em').value=tx.em||'';
+  document.getElementById('f-notes').value=tx.notes||'';
+  document.getElementById('f-status').value=tx.status||'active';
+  document.getElementById('f-side').value=tx.side||'buyer';
+  ['bd','ed','dd','fd','ad','cd'].forEach(function(f){document.getElementById('f-'+f).value=tx[f]||'';});
+  document.getElementById('add-modal').classList.add('on');
+}
+
+function closeModal(id){document.getElementById(id).classList.remove('on');}
+
+function saveTransaction(){
+  var addr=document.getElementById('f-addr').value.trim();
+  if(!addr){toast('Property address is required','err');return;}
+  var data=load();
+  var tx={
+    id:editingId||genId(),
+    addr:addr,
+    price:document.getElementById('f-price').value.trim(),
+    la:document.getElementById('f-la').value.trim(),
+    lo:document.getElementById('f-lo').value.trim(),
+    at:document.getElementById('f-at').value.trim(),
+    em:document.getElementById('f-em').value.trim(),
+    notes:document.getElementById('f-notes').value.trim(),
+    status:document.getElementById('f-status').value,
+    side:document.getElementById('f-side').value||'buyer',
+    bd:document.getElementById('f-bd').value,
+    ed:document.getElementById('f-ed').value,
+    dd:document.getElementById('f-dd').value,
+    fd:document.getElementById('f-fd').value,
+    ad:document.getElementById('f-ad').value,
+    cd:document.getElementById('f-cd').value,
+  };
+  if(editingId){
+    var ex=data.find(function(t){return t.id===editingId;});
+    if(ex)tx.checklist=ex.checklist||{};
+    data=data.map(function(t){return t.id===editingId?tx:t;});
+    toast('Transaction updated','ok');
+  } else {
+    tx.checklist={};
+    data.push(tx);
+    toast('Transaction added','ok');
+  }
+  save(data);
+  closeModal('add-modal');
+  render();
+}
+
+function deleteTransaction(){
+  if(!editingId)return;
+  if(!confirm('Delete this transaction? This cannot be undone.'))return;
+  save(load().filter(function(t){return t.id!==editingId;}));
+  closeModal('add-modal');
+  toast('Transaction deleted','ok');
+  render();
+}
+
+// ── CHECKLIST ──
+var clId=null;
+
+function openCL(id){
+  var data=load();
+  var tx=data.find(function(t){return t.id===id;});
+  if(!tx)return;
+  clId=id;
+  document.getElementById('cl-title').textContent=(tx.side==='seller'?'Seller':'Buyer')+' Side Checklist';
+  document.getElementById('cl-addr').textContent=tx.addr;
+  renderCL(tx);
+  document.getElementById('cl-modal').classList.add('on');
+}
+
+function renderCL(tx){
+  var cl=tx.checklist||{};
+  var total=0,done=0,html='';
+  getCL(tx.side).forEach(function(cat){
+    html+='<div class="cl-cat">'+cat.cat+'</div>';
+    cat.items.forEach(function(item,i){
+      total++;
+      var key=cat.cat+'_'+i;
+      var checked=cl[key]||false;
+      if(checked)done++;
+      html+='<div class="cl-item'+(checked?' done':'')+'" onclick="toggleCL(\''+key+'\')">'+
+        '<div class="cl-cb">'+(checked?'&#10003;':'')+'</div>'+
+        '<div class="cl-text">'+item+'</div>'+
+      '</div>';
+    });
+  });
+  document.getElementById('cl-body').innerHTML=html;
+  var pct=total>0?Math.round(done/total*100):0;
+  document.getElementById('cl-pct').textContent=pct+'%';
+  document.getElementById('cl-fill').style.width=pct+'%';
+}
+
+function toggleCL(key){
+  if(!clId)return;
+  var data=load();
+  var tx=data.find(function(t){return t.id===clId;});
+  if(!tx)return;
+  if(!tx.checklist)tx.checklist={};
+  tx.checklist[key]=!tx.checklist[key];
+  save(data);
+  renderCL(tx);
+  render();
+}
+
+// ── GOOGLE CALENDAR ──
+var GC_CLIENT_ID='YOUR_CLIENT_ID_HERE';
+var gcToken=null;
+
+function syncCalendar(){
+  var data=load().filter(function(t){return t.status!=='closed';});
+  if(!data.length){toast('No active transactions to sync','err');return;}
+  if(GC_CLIENT_ID==='YOUR_CLIENT_ID_HERE'){showCalSetup();return;}
+  var s=document.createElement('script');
+  s.src='https://accounts.google.com/gsi/client';
+  s.onload=function(){
+    var tc=google.accounts.oauth2.initTokenClient({
+      client_id:GC_CLIENT_ID,
+      scope:'https://www.googleapis.com/auth/calendar.events',
+      callback:function(r){
+        if(r.error){toast('Calendar auth failed','err');return;}
+        gcToken=r.access_token;
+        createEvents(data);
+      }
+    });
+    tc.requestAccessToken();
+  };
+  document.head.appendChild(s);
+}
+
+var DL={bd:'Binding Agreement',ed:'Earnest Money Due',dd:'Due Diligence',fd:'Financing Contingency',ad:'Appraisal Contingency',cd:'Closing Date'};
+
+async function createEvents(txs){
+  var created=0;
+  for(var i=0;i<txs.length;i++){
+    var tx=txs[i];
+    var keys=Object.keys(DL);
+    for(var j=0;j<keys.length;j++){
+      var k=keys[j];
+      if(!tx[k])continue;
+      var ev={
+        summary:'TC: '+DL[k]+' - '+tx.addr,
+        description:'TC: Marcos A. Pena | Property: '+tx.addr+' | Side: '+(tx.side==='seller'?'Seller':'Buyer')+(tx.la?' | Agent: '+tx.la:''),
+        start:{date:tx[k]},end:{date:tx[k]},
+        colorId:k==='cd'?'9':k==='dd'||k==='ad'?'6':'1',
+        reminders:{useDefault:false,overrides:[{method:'popup',minutes:1440},{method:'popup',minutes:180}]}
+      };
+      var r=await fetch('https://www.googleapis.com/calendar/v3/calendars/primary/events',{
+        method:'POST',headers:{'Authorization':'Bearer '+gcToken,'Content-Type':'application/json'},
+        body:JSON.stringify(ev)
+      });
+      if(r.ok)created++;
+    }
+  }
+  document.getElementById('cal-status').textContent='&#10003; '+created+' events synced';
+  setTimeout(function(){document.getElementById('cal-status').textContent='';},5000);
+  toast(created+' deadlines synced to Google Calendar!','ok');
+}
+
+function showCalSetup(){
+  var d=document.createElement('div');
+  d.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:500;display:flex;align-items:center;justify-content:center;padding:20px;';
+  d.innerHTML='<div style="background:#fff;border-radius:12px;padding:28px;max-width:500px;width:100%;">'+
+    '<div style="font-size:16px;font-weight:700;color:#1f3b57;margin-bottom:12px;">&#128197; Setup Google Calendar Sync</div>'+
+    '<p style="font-size:13px;color:#4a5568;line-height:1.7;margin-bottom:14px;">To sync deadlines automatically to Google Calendar, you need a free Google API key:</p>'+
+    '<ol style="font-size:13px;color:#4a5568;line-height:2;padding-left:18px;margin-bottom:16px;">'+
+    '<li>Go to <strong>console.cloud.google.com</strong></li>'+
+    '<li>Create project: <strong>TC Dashboard</strong></li>'+
+    '<li>Enable <strong>Google Calendar API</strong></li>'+
+    '<li>Create <strong>OAuth 2.0 Client ID</strong> (Web App)</li>'+
+    '<li>Add <strong>https://marcos3022-ship-it.github.io</strong> as authorized origin</li>'+
+    '<li>Send your <strong>Client ID</strong> to Claude</li>'+
+    '</ol>'+
+    '<div style="display:flex;gap:8px;justify-content:flex-end;">'+
+    '<button onclick="this.closest(\'div[style]\').remove()" style="padding:8px 16px;border-radius:6px;border:1px solid #dde1e8;background:none;cursor:pointer;font-family:inherit;font-size:13px;">Close</button>'+
+    '<a href="https://console.cloud.google.com" target="_blank" style="padding:8px 16px;border-radius:6px;background:#1f3b57;color:#fff;text-decoration:none;font-size:13px;font-weight:600;">Open Google Console</a>'+
+    '</div></div>';
+  document.body.appendChild(d);
+}
+
+// ── NAV ──
+function showPage(id,el){
+  document.querySelectorAll('.page').forEach(function(p){p.classList.remove('on');});
+  document.querySelectorAll('.nav-tab').forEach(function(t){t.classList.remove('on');});
+  document.getElementById('page-'+id).classList.add('on');
+  el.classList.add('on');
+}
+
+function goEmails(){
+  window.open('https://marcos3022-ship-it.github.io/tc-emails/tc_pro_v8_1.html','_blank');
+}
+
+// ── TOAST ──
+function toast(msg,type){
+  var w=document.getElementById('tw');
+  var t=document.createElement('div');
+  t.className='tst '+(type||'');
+  t.textContent=msg;
+  w.appendChild(t);
+  setTimeout(function(){if(t.parentNode)t.parentNode.removeChild(t);},4000);
+}
+
+// ── INIT ──
+checkSession();
+render();
+setInterval(render,60000);
+</script>
+</body>
+</html>
